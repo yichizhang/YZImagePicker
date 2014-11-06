@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="YZImagePickerDemoPreviewCell" id="Cxc-5t-i1p" customClass="YZImagePickerDemoPreviewCell">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cMh-EB-xwf">
+                        <rect key="frame" x="0.0" y="0.0" width="203" height="200"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="cMh-EB-xwf" firstAttribute="top" secondItem="Cxc-5t-i1p" secondAttribute="top" id="fZO-q9-9XV"/>
+                <constraint firstItem="cMh-EB-xwf" firstAttribute="leading" secondItem="Cxc-5t-i1p" secondAttribute="leading" id="mya-1m-6Po"/>
+                <constraint firstAttribute="bottom" secondItem="cMh-EB-xwf" secondAttribute="bottom" id="rsb-S6-qPr"/>
+                <constraint firstAttribute="trailing" secondItem="cMh-EB-xwf" secondAttribute="trailing" constant="-3" id="vK7-GU-fTL"/>
+            </constraints>
+            <size key="customSize" width="609" height="163"/>
+            <connections>
+                <outlet property="imageView" destination="cMh-EB-xwf" id="P9c-oa-GnM"/>
+            </connections>
+            <point key="canvasLocation" x="140" y="96"/>
+        </collectionViewCell>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

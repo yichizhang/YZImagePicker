@@ -1,0 +1,10 @@
+PODS:
+  - YZLibrary (1.0.2)
+
+DEPENDENCIES:
+  - YZLibrary
+
+SPEC CHECKSUMS:
+  YZLibrary: c94a2b3923cd7dd3906c302d87f71a7c42ef4845
+
+COCOAPODS: 0.34.4
