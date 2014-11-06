@@ -18,6 +18,7 @@
 #import <YZLibrary/UICollectionViewCell+YZLibrary.h>
 
 #import "YZImagePickerMainImageCell.h"
+#import "YZImagePickerSelectedImageCell.h"
 
 @interface YZMainCollectionDelegate : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -32,6 +33,17 @@
 {
     self = [super init];
     if (self) {
+        
+        [self.assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
+        
+        self.assetArray = [NSMutableArray array];
+        
+        __weak typeof(self) weakSelf = self;
+        [self.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+            if (result) {
+                [weakSelf.assetArray addObject:result];
+            }
+        }];
         
     }
     return self;
@@ -60,7 +72,7 @@
     
     UIImage *image =
     [UIImage imageWithCGImage:[asset thumbnail]];
-     
+    
     [cell setupCellWithData:nil];
     [cell.imageView setImage:image];
     
@@ -117,11 +129,100 @@
 
 @interface YZSelectedCollectionDelegate : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
+@property (strong) NSMutableArray *dataArray;
+
 @end
 
 @implementation YZSelectedCollectionDelegate
 
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.dataArray = [NSMutableArray array];
+        
+    }
+    return self;
+}
+
+#pragma mark UICollectionViewDelegate & DataSource
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
+    return 10;//[self.dataArray count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    YZImagePickerSelectedImageCell *cell =
+    [YZImagePickerSelectedImageCell
+     yz_dequeueFromCollectionView:collectionView
+     forIndexPath:indexPath
+     ];
+    
+    //ALAsset *asset = self.assetArray[indexPath.row];
+    
+    UIImage *image =
+    //[UIImage imageWithCGImage:[asset thumbnail]];
+    [UIImage imageNamed:@"sailing_hook_island"];
+    
+    [cell setupCellWithData:nil];
+    [cell.imageView setImage:image];
+    
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    
+}
+
+#pragma mark UICollectionViewDelegateFlowLayout conformance
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CGFloat w;
+    CGFloat h;
+    
+    w = 100;
+    h = 100;
+    
+    return CGSizeMake(w, h);
+    
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    
+    //double screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    float top;
+    float left;
+    float bottom;
+    float right;
+    
+    top = 0;
+    left = 0;
+    bottom = 0;
+    right = 0;
+    
+    return UIEdgeInsetsMake(top, left, bottom, right);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    
+    return 0.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+    
+    return 0.0;
+}
 
 @end
 
@@ -136,7 +237,7 @@
 
 - (void)commonInit{
     
-
+    
 }
 
 - (id)initWithCoder:(NSCoder*)aDecoder
@@ -179,6 +280,12 @@
     self.selectedCollectionView.delegate = self.selectedDelegate;
     self.selectedCollectionView.dataSource = self.selectedDelegate;
     
+    [YZImagePickerSelectedImageCell
+     yz_registerForCollectionView:self.selectedCollectionView
+     ];
+    
+    [self.mainCollectionView reloadData];
+    [self.selectedCollectionView reloadData];
 }
 
 

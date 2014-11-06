@@ -14,9 +14,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YZImagePickerViewController : UIViewController
+@interface YZImagePickerSelectedImageCell : UICollectionViewCell
 
-@property (strong) IBOutlet UICollectionView *mainCollectionView;
-@property (strong) IBOutlet UICollectionView *selectedCollectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+- (void)setupCellWithData:(id)data;
 
 @end

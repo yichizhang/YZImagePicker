@@ -12,11 +12,13 @@
  
  */
 
-#import <UIKit/UIKit.h>
+#import "YZImagePickerSelectedImageCell.h"
 
-@interface YZImagePickerViewController : UIViewController
+@implementation YZImagePickerSelectedImageCell
 
-@property (strong) IBOutlet UICollectionView *mainCollectionView;
-@property (strong) IBOutlet UICollectionView *selectedCollectionView;
+- (void)setupCellWithData:(id)data{
+    
+    
+}
 
 @end

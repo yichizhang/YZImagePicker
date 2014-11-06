@@ -13,14 +13,17 @@
 		12379FEB1A0B005E00E04B26 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12379FEA1A0B005E00E04B26 /* Images.xcassets */; };
 		12379FEE1A0B005E00E04B26 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12379FEC1A0B005E00E04B26 /* LaunchScreen.xib */; };
 		12379FFA1A0B005E00E04B26 /* YZImagePickerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FF91A0B005E00E04B26 /* YZImagePickerDemoTests.m */; };
-		1237A0061A0B013700E04B26 /* YZImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0051A0B013700E04B26 /* YZImagePickerViewController.m */; };
-		1237A0081A0B027F00E04B26 /* YZImagePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0071A0B027F00E04B26 /* YZImagePickerViewController.xib */; };
 		1237A0101A0B242B00E04B26 /* YZMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A00F1A0B242B00E04B26 /* YZMainViewController.m */; };
 		1237A0121A0B2FA800E04B26 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1237A0111A0B2FA800E04B26 /* AssetsLibrary.framework */; };
 		1237A01B1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0191A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m */; };
 		1237A01C1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A01A1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib */; };
-		1237A0201A0B31C800E04B26 /* YZImagePickerMainImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A01E1A0B31C800E04B26 /* YZImagePickerMainImageCell.m */; };
-		1237A0211A0B31C800E04B26 /* YZImagePickerMainImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A01F1A0B31C800E04B26 /* YZImagePickerMainImageCell.xib */; };
+		1237A0201A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */; };
+		1237A0211A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */; };
+		1237A0251A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */; };
+		1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */; };
+		1237A0281A0B487600E04B26 /* sailing_hook_island.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */; };
+		1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */; };
+		1237A02D1A0B497400E04B26 /* YZImagePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A02B1A0B497400E04B26 /* YZImagePickerViewController.xib */; };
 		804F5EA47D2AFFB3C980B35B /* libPods-YZImagePickerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 611552BDC984B62C26CD4F4C /* libPods-YZImagePickerDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -46,18 +49,22 @@
 		12379FF31A0B005E00E04B26 /* YZImagePickerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YZImagePickerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		12379FF81A0B005E00E04B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12379FF91A0B005E00E04B26 /* YZImagePickerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerDemoTests.m; sourceTree = "<group>"; };
-		1237A0041A0B013700E04B26 /* YZImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerViewController.h; sourceTree = "<group>"; };
-		1237A0051A0B013700E04B26 /* YZImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerViewController.m; sourceTree = "<group>"; };
-		1237A0071A0B027F00E04B26 /* YZImagePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerViewController.xib; sourceTree = "<group>"; };
 		1237A00E1A0B242B00E04B26 /* YZMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZMainViewController.h; sourceTree = "<group>"; };
 		1237A00F1A0B242B00E04B26 /* YZMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZMainViewController.m; sourceTree = "<group>"; };
 		1237A0111A0B2FA800E04B26 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		1237A0181A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerDemoPreviewCell.h; sourceTree = "<group>"; };
 		1237A0191A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerDemoPreviewCell.m; sourceTree = "<group>"; };
 		1237A01A1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerDemoPreviewCell.xib; sourceTree = "<group>"; };
-		1237A01D1A0B31C800E04B26 /* YZImagePickerMainImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerMainImageCell.h; sourceTree = "<group>"; };
-		1237A01E1A0B31C800E04B26 /* YZImagePickerMainImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerMainImageCell.m; sourceTree = "<group>"; };
-		1237A01F1A0B31C800E04B26 /* YZImagePickerMainImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerMainImageCell.xib; sourceTree = "<group>"; };
+		1237A01D1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerSelectedImageCell.h; sourceTree = "<group>"; };
+		1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerSelectedImageCell.m; sourceTree = "<group>"; };
+		1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerSelectedImageCell.xib; sourceTree = "<group>"; };
+		1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerMainImageCell.xib; sourceTree = "<group>"; };
+		1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerMainImageCell.h; sourceTree = "<group>"; };
+		1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerMainImageCell.m; sourceTree = "<group>"; };
+		1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sailing_hook_island.jpg; sourceTree = "<group>"; };
+		1237A0291A0B497400E04B26 /* YZImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerViewController.h; sourceTree = "<group>"; };
+		1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerViewController.m; sourceTree = "<group>"; };
+		1237A02B1A0B497400E04B26 /* YZImagePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerViewController.xib; sourceTree = "<group>"; };
 		611552BDC984B62C26CD4F4C /* libPods-YZImagePickerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YZImagePickerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC9D5E574076C5080CD31F1 /* Pods-YZImagePickerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YZImagePickerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-YZImagePickerDemo/Pods-YZImagePickerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		CB0E9C125640BC2B173627E5 /* Pods-YZImagePickerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YZImagePickerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YZImagePickerDemo/Pods-YZImagePickerDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +124,7 @@
 				12379FE71A0B005E00E04B26 /* Main.storyboard */,
 				12379FEA1A0B005E00E04B26 /* Images.xcassets */,
 				12379FEC1A0B005E00E04B26 /* LaunchScreen.xib */,
+				1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */,
 				12379FDD1A0B005E00E04B26 /* Supporting Files */,
 			);
 			path = YZImagePickerDemo;
@@ -151,12 +159,15 @@
 		1237A0031A0B013700E04B26 /* YZImagePicker */ = {
 			isa = PBXGroup;
 			children = (
-				1237A0041A0B013700E04B26 /* YZImagePickerViewController.h */,
-				1237A0051A0B013700E04B26 /* YZImagePickerViewController.m */,
-				1237A0071A0B027F00E04B26 /* YZImagePickerViewController.xib */,
-				1237A01D1A0B31C800E04B26 /* YZImagePickerMainImageCell.h */,
-				1237A01E1A0B31C800E04B26 /* YZImagePickerMainImageCell.m */,
-				1237A01F1A0B31C800E04B26 /* YZImagePickerMainImageCell.xib */,
+				1237A0291A0B497400E04B26 /* YZImagePickerViewController.h */,
+				1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */,
+				1237A02B1A0B497400E04B26 /* YZImagePickerViewController.xib */,
+				1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */,
+				1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */,
+				1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */,
+				1237A01D1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.h */,
+				1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */,
+				1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */,
 			);
 			name = YZImagePicker;
 			path = ../YZImagePicker;
@@ -265,9 +276,11 @@
 				1237A01C1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib in Resources */,
 				12379FE91A0B005E00E04B26 /* Main.storyboard in Resources */,
 				12379FEE1A0B005E00E04B26 /* LaunchScreen.xib in Resources */,
-				1237A0211A0B31C800E04B26 /* YZImagePickerMainImageCell.xib in Resources */,
+				1237A02D1A0B497400E04B26 /* YZImagePickerViewController.xib in Resources */,
+				1237A0251A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib in Resources */,
+				1237A0211A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib in Resources */,
 				12379FEB1A0B005E00E04B26 /* Images.xcassets in Resources */,
-				1237A0081A0B027F00E04B26 /* YZImagePickerViewController.xib in Resources */,
+				1237A0281A0B487600E04B26 /* sailing_hook_island.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,8 +333,9 @@
 			files = (
 				12379FE31A0B005E00E04B26 /* AppDelegate.m in Sources */,
 				1237A0101A0B242B00E04B26 /* YZMainViewController.m in Sources */,
-				1237A0061A0B013700E04B26 /* YZImagePickerViewController.m in Sources */,
-				1237A0201A0B31C800E04B26 /* YZImagePickerMainImageCell.m in Sources */,
+				1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */,
+				1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */,
+				1237A0201A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m in Sources */,
 				1237A01B1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m in Sources */,
 				12379FE01A0B005E00E04B26 /* main.m in Sources */,
 			);

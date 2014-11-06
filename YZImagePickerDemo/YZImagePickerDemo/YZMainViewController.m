@@ -15,6 +15,8 @@
 #import "YZMainViewController.h"
 #import "YZImagePickerDemoPreviewCell.h"
 
+#import "YZImagePickerViewController.h"
+
 #import <YZLibrary/UICollectionViewCell+YZLibrary.h>
 
 @interface YZMainViewController ()
@@ -88,7 +90,24 @@
 */
 
 - (void)addButtonTapped:(id)sender{
-
+    
+    YZImagePickerViewController *vc =
+    [[YZImagePickerViewController alloc]
+     initWithNibName:nil
+     bundle:nil
+     ];
+    
+    
+    UINavigationController *navCon =
+    [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    navCon.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    [self presentViewController:navCon
+                       animated:YES
+                     completion:nil
+     ];
+    
 }
 
 #pragma mark UICollectionViewDelegate & DataSource
@@ -122,8 +141,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    
-    
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout conformance

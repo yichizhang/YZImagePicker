@@ -13,6 +13,7 @@
  */
 
 #import "YZImagePickerDemoPreviewCell.h"
+#import "YZImagePickerViewController.h"
 
 @implementation YZImagePickerDemoPreviewCell
 
