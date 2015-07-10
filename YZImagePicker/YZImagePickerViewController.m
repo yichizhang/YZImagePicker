@@ -226,8 +226,7 @@
 @implementation YZImagePickerViewController
 
 - (void)commonInit{
-    
-    
+	
 }
 
 - (id)initWithCoder:(NSCoder*)aDecoder
@@ -259,27 +258,44 @@
     
     self.mainDelegate = [YZMainCollectionDelegate new];
     self.selectedDelegate = [YZSelectedCollectionDelegate new];
-    
+	
+	UICollectionViewFlowLayout *mainLayout = [UICollectionViewFlowLayout new];
+	mainLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+	self.mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:mainLayout];
+	[self.view addSubview:self.mainCollectionView];
+	
     self.mainCollectionView.delegate = self.mainDelegate;
     self.mainCollectionView.dataSource = self.mainDelegate;
-    
+	self.mainCollectionView.backgroundColor = [UIColor blueColor];
 	[self.mainCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
 
+	UICollectionViewFlowLayout *selLayout = [UICollectionViewFlowLayout new];
+	selLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+	self.selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
+	[self.view addSubview:self.selectedCollectionView];
+	
     self.selectedCollectionView.delegate = self.selectedDelegate;
     self.selectedCollectionView.dataSource = self.selectedDelegate;
-	
+	self.selectedCollectionView.backgroundColor = [UIColor redColor];
 	[self.selectedCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
     
     [self.mainCollectionView reloadData];
     [self.selectedCollectionView reloadData];
 }
 
-
-
 - (void)viewDidDisappear:(BOOL)animated{
     
     [super viewDidDisappear:animated];
     
+}
+
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+	
+	CGFloat selHeight = 100;
+	CGFloat mainHeight = CGRectGetHeight(self.view.bounds) - selHeight;
+	self.mainCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), mainHeight);
+	self.selectedCollectionView.frame = CGRectMake(0, mainHeight, CGRectGetWidth(self.view.bounds), selHeight);
 }
 
 - (void)didReceiveMemoryWarning {

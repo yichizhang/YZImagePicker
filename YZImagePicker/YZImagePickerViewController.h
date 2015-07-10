@@ -16,7 +16,7 @@
 
 @interface YZImagePickerViewController : UIViewController
 
-@property (strong) IBOutlet UICollectionView *mainCollectionView;
-@property (strong) IBOutlet UICollectionView *selectedCollectionView;
+@property (nonatomic, strong) UICollectionView *mainCollectionView;
+@property (nonatomic, strong) UICollectionView *selectedCollectionView;
 
 @end
