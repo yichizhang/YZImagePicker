@@ -15,10 +15,8 @@
 #import "YZImagePickerViewController.h"
 
 #import <AssetsLibrary/AssetsLibrary.h>
-#import <YZLibrary/UICollectionViewCell+YZLibrary.h>
 
 #import "YZImagePickerMainImageCell.h"
-#import "YZImagePickerSelectedImageCell.h"
 
 @interface YZMainCollectionDelegate : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -61,13 +59,9 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    YZImagePickerMainImageCell *cell =
-    [YZImagePickerMainImageCell
-     yz_dequeueFromCollectionView:collectionView
-     forIndexPath:indexPath
-     ];
-    
+	
+	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
+
     ALAsset *asset = self.assetArray[indexPath.row];
     
     UIImage *image =
@@ -160,12 +154,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    YZImagePickerSelectedImageCell *cell =
-    [YZImagePickerSelectedImageCell
-     yz_dequeueFromCollectionView:collectionView
-     forIndexPath:indexPath
-     ];
-    
+	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
+	
     //ALAsset *asset = self.assetArray[indexPath.row];
     
     UIImage *image =
@@ -273,16 +263,12 @@
     self.mainCollectionView.delegate = self.mainDelegate;
     self.mainCollectionView.dataSource = self.mainDelegate;
     
-    [YZImagePickerMainImageCell
-     yz_registerForCollectionView:self.mainCollectionView
-     ];
-    
+	[self.mainCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
+
     self.selectedCollectionView.delegate = self.selectedDelegate;
     self.selectedCollectionView.dataSource = self.selectedDelegate;
-    
-    [YZImagePickerSelectedImageCell
-     yz_registerForCollectionView:self.selectedCollectionView
-     ];
+	
+	[self.selectedCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
     
     [self.mainCollectionView reloadData];
     [self.selectedCollectionView reloadData];

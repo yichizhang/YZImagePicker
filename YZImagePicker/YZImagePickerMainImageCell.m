@@ -14,7 +14,66 @@
 
 #import "YZImagePickerMainImageCell.h"
 
+NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageCell";
+
 @implementation YZImagePickerMainImageCell
+
+- (instancetype)initWithFrame:(CGRect)frame{
+	
+	self = [super initWithFrame:frame];
+	if (self) {
+		self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[self addSubview:self.imageView];
+		
+		UIView *contentView = self;
+		UIView *itemView = self.imageView;
+		
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+		self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		NSLayoutConstraint *topConstraint =
+		[NSLayoutConstraint constraintWithItem:itemView
+									 attribute:NSLayoutAttributeTop
+									 relatedBy:NSLayoutRelationEqual
+										toItem:contentView
+									 attribute:NSLayoutAttributeTop
+									multiplier:1.0f
+									  constant:0];
+		
+		NSLayoutConstraint *leadingConstraint =
+		[NSLayoutConstraint constraintWithItem:itemView
+									 attribute:NSLayoutAttributeLeading
+									 relatedBy:NSLayoutRelationEqual
+										toItem:contentView
+									 attribute:NSLayoutAttributeLeading
+									multiplier:1.0f
+									  constant:0];
+		
+		NSLayoutConstraint *bottomConstraint =
+		[NSLayoutConstraint constraintWithItem:contentView
+									 attribute:NSLayoutAttributeBottom
+									 relatedBy:NSLayoutRelationEqual
+										toItem:itemView
+									 attribute:NSLayoutAttributeBottom
+									multiplier:1.0f
+									  constant:0];
+		
+		NSLayoutConstraint *trailingConstraint =
+		[NSLayoutConstraint constraintWithItem:contentView
+									 attribute:NSLayoutAttributeTrailing
+									 relatedBy:NSLayoutRelationEqual
+										toItem:itemView
+									 attribute:NSLayoutAttributeTrailing
+									multiplier:1.0f
+									  constant:0];
+		
+		[contentView addConstraint:topConstraint];
+		[contentView addConstraint:leadingConstraint];
+		[contentView addConstraint:bottomConstraint];
+		[contentView addConstraint:trailingConstraint];
+	}
+	return self;
+}
 
 - (void)setupCellWithData:(id)data{
     

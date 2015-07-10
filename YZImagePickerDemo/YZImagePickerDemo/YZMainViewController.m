@@ -13,11 +13,9 @@
  */
 
 #import "YZMainViewController.h"
-#import "YZImagePickerDemoPreviewCell.h"
+#import "YZImagePickerMainImageCell.h"
 
 #import "YZImagePickerViewController.h"
-
-#import <YZLibrary/UICollectionViewCell+YZLibrary.h>
 
 @interface YZMainViewController ()
 
@@ -68,8 +66,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [YZImagePickerDemoPreviewCell yz_registerForCollectionView:self.collectionView];
+	
+	[self.collectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -124,12 +122,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    YZImagePickerDemoPreviewCell *cell =
-    [YZImagePickerDemoPreviewCell
-     yz_dequeueFromCollectionView:collectionView
-     forIndexPath:indexPath
-     ];
-    
+	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
+	
     UIImage *image =
     self.dataArray[indexPath.row];
     

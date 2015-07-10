@@ -15,16 +15,10 @@
 		12379FFA1A0B005E00E04B26 /* YZImagePickerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FF91A0B005E00E04B26 /* YZImagePickerDemoTests.m */; };
 		1237A0101A0B242B00E04B26 /* YZMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A00F1A0B242B00E04B26 /* YZMainViewController.m */; };
 		1237A0121A0B2FA800E04B26 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1237A0111A0B2FA800E04B26 /* AssetsLibrary.framework */; };
-		1237A01B1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0191A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m */; };
-		1237A01C1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A01A1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib */; };
-		1237A0201A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */; };
-		1237A0211A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */; };
-		1237A0251A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */; };
 		1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */; };
 		1237A0281A0B487600E04B26 /* sailing_hook_island.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */; };
 		1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */; };
 		1237A02D1A0B497400E04B26 /* YZImagePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1237A02B1A0B497400E04B26 /* YZImagePickerViewController.xib */; };
-		804F5EA47D2AFFB3C980B35B /* libPods-YZImagePickerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 611552BDC984B62C26CD4F4C /* libPods-YZImagePickerDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,13 +46,6 @@
 		1237A00E1A0B242B00E04B26 /* YZMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZMainViewController.h; sourceTree = "<group>"; };
 		1237A00F1A0B242B00E04B26 /* YZMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZMainViewController.m; sourceTree = "<group>"; };
 		1237A0111A0B2FA800E04B26 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		1237A0181A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerDemoPreviewCell.h; sourceTree = "<group>"; };
-		1237A0191A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerDemoPreviewCell.m; sourceTree = "<group>"; };
-		1237A01A1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerDemoPreviewCell.xib; sourceTree = "<group>"; };
-		1237A01D1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerSelectedImageCell.h; sourceTree = "<group>"; };
-		1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerSelectedImageCell.m; sourceTree = "<group>"; };
-		1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerSelectedImageCell.xib; sourceTree = "<group>"; };
-		1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZImagePickerMainImageCell.xib; sourceTree = "<group>"; };
 		1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerMainImageCell.h; sourceTree = "<group>"; };
 		1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerMainImageCell.m; sourceTree = "<group>"; };
 		1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sailing_hook_island.jpg; sourceTree = "<group>"; };
@@ -76,7 +63,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1237A0121A0B2FA800E04B26 /* AssetsLibrary.framework in Frameworks */,
-				804F5EA47D2AFFB3C980B35B /* libPods-YZImagePickerDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,9 +104,6 @@
 				12379FE21A0B005E00E04B26 /* AppDelegate.m */,
 				1237A00E1A0B242B00E04B26 /* YZMainViewController.h */,
 				1237A00F1A0B242B00E04B26 /* YZMainViewController.m */,
-				1237A0181A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.h */,
-				1237A0191A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m */,
-				1237A01A1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib */,
 				12379FE71A0B005E00E04B26 /* Main.storyboard */,
 				12379FEA1A0B005E00E04B26 /* Images.xcassets */,
 				12379FEC1A0B005E00E04B26 /* LaunchScreen.xib */,
@@ -164,10 +147,6 @@
 				1237A02B1A0B497400E04B26 /* YZImagePickerViewController.xib */,
 				1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */,
 				1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */,
-				1237A0221A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib */,
-				1237A01D1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.h */,
-				1237A01E1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m */,
-				1237A01F1A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib */,
 			);
 			name = YZImagePicker;
 			path = ../YZImagePicker;
@@ -198,11 +177,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 12379FFD1A0B005E00E04B26 /* Build configuration list for PBXNativeTarget "YZImagePickerDemo" */;
 			buildPhases = (
-				E542313F00DA426187374EC7 /* Check Pods Manifest.lock */,
 				12379FD61A0B005E00E04B26 /* Sources */,
 				12379FD71A0B005E00E04B26 /* Frameworks */,
 				12379FD81A0B005E00E04B26 /* Resources */,
-				AF0B4784E5E72520F9867EA6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -273,12 +250,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1237A01C1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.xib in Resources */,
 				12379FE91A0B005E00E04B26 /* Main.storyboard in Resources */,
 				12379FEE1A0B005E00E04B26 /* LaunchScreen.xib in Resources */,
 				1237A02D1A0B497400E04B26 /* YZImagePickerViewController.xib in Resources */,
-				1237A0251A0B47FC00E04B26 /* YZImagePickerMainImageCell.xib in Resources */,
-				1237A0211A0B31C800E04B26 /* YZImagePickerSelectedImageCell.xib in Resources */,
 				12379FEB1A0B005E00E04B26 /* Images.xcassets in Resources */,
 				1237A0281A0B487600E04B26 /* sailing_hook_island.jpg in Resources */,
 			);
@@ -293,39 +267,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		AF0B4784E5E72520F9867EA6 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YZImagePickerDemo/Pods-YZImagePickerDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E542313F00DA426187374EC7 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		12379FD61A0B005E00E04B26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -335,8 +276,6 @@
 				1237A0101A0B242B00E04B26 /* YZMainViewController.m in Sources */,
 				1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */,
 				1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */,
-				1237A0201A0B31C800E04B26 /* YZImagePickerSelectedImageCell.m in Sources */,
-				1237A01B1A0B31B900E04B26 /* YZImagePickerDemoPreviewCell.m in Sources */,
 				12379FE01A0B005E00E04B26 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

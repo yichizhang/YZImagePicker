@@ -14,9 +14,11 @@
 
 #import <UIKit/UIKit.h>
 
+FOUNDATION_EXPORT NSString *const YZImagePickerMainImageCellIdentifier;
+
 @interface YZImagePickerMainImageCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) UIImageView *imageView;
 
 - (void)setupCellWithData:(id)data;
 
