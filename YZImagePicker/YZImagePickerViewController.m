@@ -20,8 +20,8 @@
 
 @interface YZMainCollectionDelegate : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (strong) ALAssetsGroup *assetsGroup;
-@property (strong) NSMutableArray *assetArray;
+@property (nonatomic, strong) ALAssetsLibrary *library;
+@property (nonatomic, strong) NSMutableArray *assetArray;
 
 @end
 
@@ -31,18 +31,27 @@
 {
     self = [super init];
     if (self) {
-        
-        [self.assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
-        
-        self.assetArray = [NSMutableArray array];
-        
-        __weak typeof(self) weakSelf = self;
-        [self.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-            if (result) {
-                [weakSelf.assetArray addObject:result];
-            }
-        }];
-        
+		
+		_assetArray = [NSMutableArray array];
+		
+		_library = [ALAssetsLibrary new];
+		[_library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+			
+			[group setAssetsFilter:[ALAssetsFilter allPhotos]];
+			[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+				if (result) {
+					
+					[_assetArray addObject:result];
+					
+				}
+			}];
+			
+		} failureBlock:^(NSError *error) {
+			
+		}];
+		
+//		self.assetsGroup = [[ALAssetsGroup alloc] init];
+		
     }
     return self;
 }
@@ -247,6 +256,7 @@
     return self;
 }
 
+#pragma mark - View life cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     
@@ -255,6 +265,10 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+	
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTapped:)];
     
     self.mainDelegate = [YZMainCollectionDelegate new];
     self.selectedDelegate = [YZSelectedCollectionDelegate new];
@@ -302,6 +316,15 @@
     
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Actions
+- (void)cancelButtonTapped:(id)sender {
+	[self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)reloadButtonTapped:(id)sender {
+	[self.mainCollectionView reloadData];
 }
 
 @end
