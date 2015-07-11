@@ -15,7 +15,7 @@
 #import <UIKit/UIKit.h>
 #import "YZAssetGroupSelectionViewController.h"
 
-@interface YZImagePickerViewController : UIViewController <YZAssetGroupSelectionDelegate>
+@interface YZImagePickerViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, YZAssetGroupSelectionDelegate>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
 @property (nonatomic, strong) UICollectionView *selectedCollectionView;

@@ -13,8 +13,8 @@
  */
 
 #import <UIKit/UIKit.h>
-@class ALAssetsLibrary;
-@class ALAssetsGroup;
+@import AssetsLibrary;
+
 @class YZAssetGroupSelectionViewController;
 
 @protocol YZAssetGroupSelectionDelegate <NSObject>
@@ -25,6 +25,7 @@
 
 @interface YZAssetGroupSelectionViewController : UITableViewController
 
-@property (nonatomic, weak) ALAssetsLibrary* library;
 @property (nonatomic, weak) id<YZAssetGroupSelectionDelegate> delegate;
+- (void)updateGroupsWithLibrary:(ALAssetsLibrary *)library groupTypes:(ALAssetsGroupType)types;
+
 @end

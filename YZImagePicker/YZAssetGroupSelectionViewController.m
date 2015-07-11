@@ -13,7 +13,6 @@
  */
 
 #import "YZAssetGroupSelectionViewController.h"
-@import AssetsLibrary;
 
 @interface YZAssetGroupSelectionViewController ()
 
@@ -23,10 +22,10 @@
 
 @implementation YZAssetGroupSelectionViewController
 
-- (void)setLibrary:(ALAssetsLibrary *)library {
+- (void)updateGroupsWithLibrary:(ALAssetsLibrary *)library groupTypes:(ALAssetsGroupType)types {
 	_groupArray = [NSMutableArray array];
 	
-	[library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+	[library enumerateGroupsWithTypes:types usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
 		
 		if (group) {
 			[_groupArray addObject:group];
