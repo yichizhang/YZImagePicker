@@ -1,6 +1,6 @@
 /*
  
- Copyright (c) 2014 Yichi Zhang
+ Copyright (c) 2015 Yichi Zhang
  https://github.com/yichizhang
  zhang-yi-chi@hotmail.com
  
@@ -13,11 +13,18 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "YZAssetGroupSelectionViewController.h"
+@class ALAssetsLibrary;
+@class ALAssetsGroup;
+@class YZAssetGroupSelectionViewController;
 
-@interface YZImagePickerViewController : UIViewController <YZAssetGroupSelectionDelegate>
+@protocol YZAssetGroupSelectionDelegate <NSObject>
 
-@property (nonatomic, strong) UICollectionView *mainCollectionView;
-@property (nonatomic, strong) UICollectionView *selectedCollectionView;
+- (void)assetGroupSelectionViewController:(YZAssetGroupSelectionViewController*)vc didSelectAssetsGroup:(ALAssetsGroup*)group;
 
+@end
+
+@interface YZAssetGroupSelectionViewController : UITableViewController
+
+@property (nonatomic, weak) ALAssetsLibrary* library;
+@property (nonatomic, weak) id<YZAssetGroupSelectionDelegate> delegate;
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		120B4B031B518BF7009C27FE /* YZAssetGroupSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */; };
 		12379FE01A0B005E00E04B26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FDF1A0B005E00E04B26 /* main.m */; };
 		12379FE31A0B005E00E04B26 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FE21A0B005E00E04B26 /* AppDelegate.m */; };
 		12379FE91A0B005E00E04B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12379FE71A0B005E00E04B26 /* Main.storyboard */; };
@@ -31,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		120B4B011B518BF7009C27FE /* YZAssetGroupSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZAssetGroupSelectionViewController.h; sourceTree = "<group>"; };
+		120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZAssetGroupSelectionViewController.m; sourceTree = "<group>"; };
 		12379FDA1A0B005E00E04B26 /* YZImagePickerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YZImagePickerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12379FDE1A0B005E00E04B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12379FDF1A0B005E00E04B26 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -140,6 +143,8 @@
 		1237A0031A0B013700E04B26 /* YZImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				120B4B011B518BF7009C27FE /* YZAssetGroupSelectionViewController.h */,
+				120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */,
 				1237A0291A0B497400E04B26 /* YZImagePickerViewController.h */,
 				1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */,
 				1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */,
@@ -273,6 +278,7 @@
 				1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */,
 				1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */,
 				12379FE01A0B005E00E04B26 /* main.m in Sources */,
+				120B4B031B518BF7009C27FE /* YZAssetGroupSelectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

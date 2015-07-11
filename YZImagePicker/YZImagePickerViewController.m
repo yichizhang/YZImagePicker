@@ -12,15 +12,16 @@
  
  */
 
+@import AssetsLibrary;
+@import Photos;
 #import "YZImagePickerViewController.h"
-
-#import <AssetsLibrary/AssetsLibrary.h>
-
 #import "YZImagePickerMainImageCell.h"
+#import "YZAssetGroupSelectionViewController.h"
 
 @interface YZMainCollectionDelegate : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
+@property (nonatomic, strong) ALAssetsGroup *group;
 @property (nonatomic, strong) NSMutableArray *assetArray;
 
 @end
@@ -31,31 +32,20 @@
 {
     self = [super init];
     if (self) {
-		
-		_assetArray = [NSMutableArray array];
-		
 		_library = [ALAssetsLibrary new];
-		[_library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-			
-			[group setAssetsFilter:[ALAssetsFilter allPhotos]];
-			[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-				if (result) {
-					
-					[_assetArray addObject:result];
-					
-				}
-			}];
-			
-		} failureBlock:^(NSError *error) {
-			
-		}];
-		
-//		self.assetsGroup = [[ALAssetsGroup alloc] init];
-		
     }
     return self;
 }
 
+- (void)setGroup:(ALAssetsGroup *)group {
+	_assetArray = [NSMutableArray array];
+	[group setAssetsFilter:[ALAssetsFilter allPhotos]];
+	[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+		if (result) {
+			[_assetArray addObject:result];
+		}
+	}];
+}
 #pragma mark UICollectionViewDelegate & DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -227,8 +217,8 @@
 
 @interface YZImagePickerViewController ()
 
-@property (strong) YZMainCollectionDelegate *mainDelegate;
-@property (strong) YZSelectedCollectionDelegate *selectedDelegate;
+@property (nonatomic, strong) YZMainCollectionDelegate *mainDelegate;
+@property (nonatomic, strong) YZSelectedCollectionDelegate *selectedDelegate;
 
 @end
 
@@ -269,6 +259,11 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTapped:)];
+	
+	UIButton *titleButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	[titleButton setTitle:@"Select Group" forState:UIControlStateNormal];
+	[titleButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.titleView = titleButton;
     
     self.mainDelegate = [YZMainCollectionDelegate new];
     self.selectedDelegate = [YZSelectedCollectionDelegate new];
@@ -325,6 +320,25 @@
 
 - (void)reloadButtonTapped:(id)sender {
 	[self.mainCollectionView reloadData];
+}
+
+- (void)selectGroupButtonTapped:(UIButton*)sender {
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		
+		YZAssetGroupSelectionViewController *vc = [YZAssetGroupSelectionViewController new];
+		vc.library = self.mainDelegate.library;
+		vc.delegate = self;
+		
+		UIPopoverController *popoverVC = [[UIPopoverController alloc] initWithContentViewController:vc];
+		[popoverVC presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:true];
+		
+	}
+}
+
+#pragma mark - YZAssetGroupSelectionDelegate Delegate
+- (void)assetGroupSelectionViewController:(YZAssetGroupSelectionViewController*)vc didSelectAssetsGroup:(ALAssetsGroup*)group {
+	
+	self.mainDelegate.group = group;
 }
 
 @end
