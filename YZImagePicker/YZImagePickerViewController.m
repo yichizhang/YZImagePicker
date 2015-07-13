@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 @property (nonatomic, strong) NSMutableArray *assetArray;
+@property (nonatomic, strong) UIButton *groupSelectionButton;
 
 @end
 
@@ -62,10 +63,24 @@
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTapped:)];
 	
-	UIButton *titleButton = [UIButton buttonWithType:UIButtonTypeSystem];
-	[titleButton setTitle:@"Select Group" forState:UIControlStateNormal];
-	[titleButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.titleView = titleButton;
+	__block ALAssetsGroup *firstGroup = nil;
+	[_library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+		
+		if (group) {
+			firstGroup = group;
+			*stop = true;
+			
+			[self.groupSelectionButton setTitle:[firstGroup valueForProperty:ALAssetsGroupPropertyName] forState:UIControlStateNormal];
+			[self updateAssestsWithGroup:firstGroup assetsFilter:[ALAssetsFilter allPhotos]];
+		}
+	} failureBlock:^(NSError *error) {
+		
+	}];
+	
+	_groupSelectionButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	[_groupSelectionButton setTitle:@"Select Group" forState:UIControlStateNormal];
+	[_groupSelectionButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.titleView = _groupSelectionButton;
 	
 	UICollectionViewFlowLayout *mainLayout = [UICollectionViewFlowLayout new];
 	mainLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
