@@ -131,11 +131,17 @@
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
 	_assetArray = [NSMutableArray array];
 	[group setAssetsFilter:filter];
+	
+	NSInteger numberOfAssets = [group numberOfAssets];
+	__block NSInteger count = 0;
 	[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
 		if (result) {
 			[_assetArray addObject:result];
-			// FIXME: How to know if enumeration is finished?
-			[self.mainCollectionView reloadData];
+			
+			count++;
+			if (count == numberOfAssets) {
+				[self.mainCollectionView reloadData];
+			}
 		}
 	}];
 }
