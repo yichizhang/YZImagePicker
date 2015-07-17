@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		120B4B031B518BF7009C27FE /* YZAssetGroupSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */; };
+		1229B3111B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1229B3101B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.m */; };
 		12379FE01A0B005E00E04B26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FDF1A0B005E00E04B26 /* main.m */; };
 		12379FE31A0B005E00E04B26 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12379FE21A0B005E00E04B26 /* AppDelegate.m */; };
 		12379FE91A0B005E00E04B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12379FE71A0B005E00E04B26 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 		1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A0241A0B47FC00E04B26 /* YZImagePickerMainImageCell.m */; };
 		1237A0281A0B487600E04B26 /* sailing_hook_island.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */; };
 		1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */; };
+		12AB6D3D1B590A43002064DB /* YZImagePickerMainFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 12AB6D3C1B590A43002064DB /* YZImagePickerMainFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 /* Begin PBXFileReference section */
 		120B4B011B518BF7009C27FE /* YZAssetGroupSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZAssetGroupSelectionViewController.h; sourceTree = "<group>"; };
 		120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZAssetGroupSelectionViewController.m; sourceTree = "<group>"; };
+		1229B30F1B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerSelectedFlowLayout.h; sourceTree = "<group>"; };
+		1229B3101B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerSelectedFlowLayout.m; sourceTree = "<group>"; };
 		12379FDA1A0B005E00E04B26 /* YZImagePickerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YZImagePickerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12379FDE1A0B005E00E04B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12379FDF1A0B005E00E04B26 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 		1237A0271A0B487600E04B26 /* sailing_hook_island.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sailing_hook_island.jpg; sourceTree = "<group>"; };
 		1237A0291A0B497400E04B26 /* YZImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerViewController.h; sourceTree = "<group>"; };
 		1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerViewController.m; sourceTree = "<group>"; };
+		12AB6D3B1B590A43002064DB /* YZImagePickerMainFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZImagePickerMainFlowLayout.h; sourceTree = "<group>"; };
+		12AB6D3C1B590A43002064DB /* YZImagePickerMainFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZImagePickerMainFlowLayout.m; sourceTree = "<group>"; };
 		611552BDC984B62C26CD4F4C /* libPods-YZImagePickerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YZImagePickerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC9D5E574076C5080CD31F1 /* Pods-YZImagePickerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YZImagePickerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-YZImagePickerDemo/Pods-YZImagePickerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		CB0E9C125640BC2B173627E5 /* Pods-YZImagePickerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YZImagePickerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YZImagePickerDemo/Pods-YZImagePickerDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +151,10 @@
 			children = (
 				120B4B011B518BF7009C27FE /* YZAssetGroupSelectionViewController.h */,
 				120B4B021B518BF7009C27FE /* YZAssetGroupSelectionViewController.m */,
+				12AB6D3B1B590A43002064DB /* YZImagePickerMainFlowLayout.h */,
+				12AB6D3C1B590A43002064DB /* YZImagePickerMainFlowLayout.m */,
+				1229B30F1B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.h */,
+				1229B3101B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.m */,
 				1237A0291A0B497400E04B26 /* YZImagePickerViewController.h */,
 				1237A02A1A0B497400E04B26 /* YZImagePickerViewController.m */,
 				1237A0231A0B47FC00E04B26 /* YZImagePickerMainImageCell.h */,
@@ -277,8 +287,10 @@
 				1237A0101A0B242B00E04B26 /* YZMainViewController.m in Sources */,
 				1237A02C1A0B497400E04B26 /* YZImagePickerViewController.m in Sources */,
 				1237A0261A0B47FC00E04B26 /* YZImagePickerMainImageCell.m in Sources */,
+				1229B3111B58FFA200C8D1D9 /* YZImagePickerSelectedFlowLayout.m in Sources */,
 				12379FE01A0B005E00E04B26 /* main.m in Sources */,
 				120B4B031B518BF7009C27FE /* YZAssetGroupSelectionViewController.m in Sources */,
+				12AB6D3D1B590A43002064DB /* YZImagePickerMainFlowLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

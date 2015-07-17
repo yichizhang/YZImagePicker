@@ -16,11 +16,14 @@
 #import "YZImagePickerViewController.h"
 #import "YZImagePickerMainImageCell.h"
 #import "YZAssetGroupSelectionViewController.h"
+#import "YZImagePickerMainFlowLayout.h"
+#import "YZImagePickerSelectedFlowLayout.h"
 
 @interface YZImagePickerViewController ()
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 @property (nonatomic, strong) NSMutableArray *assetArray;
+@property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
 
 @end
@@ -29,6 +32,7 @@
 
 - (void)commonInit{
 	_library = [ALAssetsLibrary new];
+	_selectedAssets = [NSMutableArray new];
 }
 
 - (id)initWithCoder:(NSCoder*)aDecoder
@@ -63,6 +67,12 @@
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTapped:)];
 	
+	_groupSelectionButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	[_groupSelectionButton setTitle:@"Select Group" forState:UIControlStateNormal];
+	[_groupSelectionButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.titleView = _groupSelectionButton;
+	
+	// Load first group
 	__block ALAssetsGroup *firstGroup = nil;
 	[_library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
 		
@@ -70,36 +80,28 @@
 			firstGroup = group;
 			*stop = true;
 			
-			[self.groupSelectionButton setTitle:[firstGroup valueForProperty:ALAssetsGroupPropertyName] forState:UIControlStateNormal];
 			[self updateAssestsWithGroup:firstGroup assetsFilter:[ALAssetsFilter allPhotos]];
 		}
 	} failureBlock:^(NSError *error) {
 		
 	}];
 	
-	_groupSelectionButton = [UIButton buttonWithType:UIButtonTypeSystem];
-	[_groupSelectionButton setTitle:@"Select Group" forState:UIControlStateNormal];
-	[_groupSelectionButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.titleView = _groupSelectionButton;
-	
-	UICollectionViewFlowLayout *mainLayout = [UICollectionViewFlowLayout new];
-	mainLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+	YZImagePickerMainFlowLayout *mainLayout = [YZImagePickerMainFlowLayout new];
 	self.mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:mainLayout];
 	[self.view addSubview:self.mainCollectionView];
 	
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.dataSource = self;
-	self.mainCollectionView.backgroundColor = [UIColor blueColor];
+	self.mainCollectionView.backgroundColor = [UIColor whiteColor];
 	[self.mainCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
 
-	UICollectionViewFlowLayout *selLayout = [UICollectionViewFlowLayout new];
-	selLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+	YZImagePickerSelectedFlowLayout *selLayout = [YZImagePickerSelectedFlowLayout new];
 	self.selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
 	[self.view addSubview:self.selectedCollectionView];
 	
     self.selectedCollectionView.delegate = self;
     self.selectedCollectionView.dataSource = self;
-	self.selectedCollectionView.backgroundColor = [UIColor redColor];
+	self.selectedCollectionView.backgroundColor = [UIColor lightGrayColor];
 	[self.selectedCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
     
     [self.mainCollectionView reloadData];
@@ -131,6 +133,8 @@
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
 	_assetArray = [NSMutableArray array];
 	[group setAssetsFilter:filter];
+	
+	[_groupSelectionButton setTitle:[group valueForProperty:ALAssetsGroupPropertyName] forState:UIControlStateNormal];
 	
 	NSInteger numberOfAssets = [group numberOfAssets];
 	__block NSInteger count = 0;
@@ -190,78 +194,50 @@
 	if (collectionView == self.mainCollectionView) {
 		return [self.assetArray count];
 	} else {
-		return 0;
+		return [self.selectedAssets count];
 	}
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 	
+	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
+	
+	ALAsset *asset;
+	
 	if (collectionView == self.mainCollectionView) {
-		
-		YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
-		
-		ALAsset *asset = self.assetArray[indexPath.row];
-		
-		UIImage *image =
-		[UIImage imageWithCGImage:[asset thumbnail]];
-		
-		[cell setupCellWithData:nil];
-		[cell.imageView setImage:image];
-		
-		return cell;
+		asset = self.assetArray[indexPath.row];
 	} else {
-		
-		return nil;
+		asset = self.selectedAssets[indexPath.row];
 	}
+	
+	UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
+	
+	[cell setupCellWithData:nil];
+	[cell.imageView setImage:image];
+	
+	return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 	
 	if (collectionView == self.mainCollectionView) {
 		
+		ALAsset *asset = self.assetArray[indexPath.row];
+		
+		if ([_selectedAssets containsObject:asset] == false) {
+			[_selectedAssets addObject:asset];
+			
+			NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
+			[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+		}
 	} else {
 		
+		[collectionView.collectionViewLayout invalidateLayout];
+		[_selectedAssets removeObjectAtIndex:indexPath.row];
+		
+		NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
+		[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
 	}
-}
-
-#pragma mark UICollectionViewDelegateFlowLayout conformance
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	
-	CGFloat w;
-	CGFloat h;
-	
-	w = 100;
-	h = 100;
-	
-	return CGSizeMake(w, h);
-	
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-	
-	//double screenWidth = [[UIScreen mainScreen] bounds].size.width;
-	float top;
-	float left;
-	float bottom;
-	float right;
-	
-	top = 0;
-	left = 0;
-	bottom = 0;
-	right = 0;
-	
-	return UIEdgeInsetsMake(top, left, bottom, right);
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-	
-	return 0.0;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-	
-	return 0.0;
 }
 
 @end
