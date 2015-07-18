@@ -36,6 +36,19 @@
 	}];
 }
 
+- (void)loadView {
+	
+	[super loadView];
+	
+	UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+	UIVisualEffectView *visualEffectsView = [[UIVisualEffectView alloc] initWithEffect:effect];
+	visualEffectsView.frame = self.tableView.bounds;
+	visualEffectsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	
+	self.tableView.backgroundView = visualEffectsView;
+	self.tableView.backgroundColor = [UIColor clearColor];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
@@ -65,7 +78,8 @@
     // Configure the cell...
 	ALAssetsGroup *group = [self.groupArray objectAtIndex:indexPath.row];
 	cell.textLabel.text = [group valueForProperty:ALAssetsGroupPropertyName];
-    
+	cell.backgroundColor = [UIColor clearColor];
+	
     return cell;
 }
 
