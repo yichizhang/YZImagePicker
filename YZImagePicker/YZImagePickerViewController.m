@@ -101,7 +101,7 @@
 	
     self.selectedCollectionView.delegate = self;
     self.selectedCollectionView.dataSource = self;
-	self.selectedCollectionView.backgroundColor = [UIColor lightGrayColor];
+	self.selectedCollectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
 	[self.selectedCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
     
     [self.mainCollectionView reloadData];
@@ -161,14 +161,37 @@
 }
 
 - (void)selectGroupButtonTapped:(UIButton*)sender {
+	
+	YZAssetGroupSelectionViewController *vc = [YZAssetGroupSelectionViewController alloc];
+	[vc updateGroupsWithLibrary:_library groupTypes:ALAssetsGroupAll];
+	vc.delegate = self;
+	
 	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-		
-		YZAssetGroupSelectionViewController *vc = [YZAssetGroupSelectionViewController new];
-		[vc updateGroupsWithLibrary:_library groupTypes:ALAssetsGroupAll];
-		vc.delegate = self;
 		
 		UIPopoverController *popoverVC = [[UIPopoverController alloc] initWithContentViewController:vc];
 		[popoverVC presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:true];
+		
+	} else {
+		
+		vc.modalPresentationStyle = UIModalPresentationPopover;
+		vc.preferredContentSize = CGSizeMake(320, 300);
+		
+		UIPopoverPresentationController *popVC = [vc popoverPresentationController];
+		popVC.permittedArrowDirections = UIPopoverArrowDirectionUp;
+		popVC.sourceView = sender;
+		
+		CGRect senderRect = [sender convertRect:sender.frame fromView:sender.superview];
+		CGRect sourceRect = CGRectMake(
+									   CGRectGetMinX(senderRect),
+									   CGRectGetMidY(senderRect),
+									   CGRectGetWidth(senderRect),
+									   CGRectGetHeight(senderRect)
+									   );
+		
+		popVC.sourceRect = sourceRect;
+		popVC.delegate = self;
+		
+		[self presentViewController:vc animated:YES completion:nil];
 		
 	}
 }
@@ -229,6 +252,8 @@
 			
 			NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
 			[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+			
+			[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
 		}
 	} else {
 		
@@ -238,6 +263,16 @@
 		NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
 		[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
 	}
+}
+
+#pragma mark -
+
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+	return YES;
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+	return UIModalPresentationNone;
 }
 
 @end
