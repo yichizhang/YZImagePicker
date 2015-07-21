@@ -16,61 +16,164 @@
 
 NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageCell";
 
-@implementation YZImagePickerMainImageCell
+@interface YZImagePickerCellSelectionView : UIView
+
+@property (nonatomic, assign) BOOL selected;
+
+@end
+
+@implementation YZImagePickerCellSelectionView
 
 - (instancetype)initWithFrame:(CGRect)frame{
 	
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		[self addSubview:self.imageView];
+		self.backgroundColor = [UIColor clearColor];
+	}
+	
+	return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextClearRect(context, rect);
+	
+	CGRect ovalOuterRect = CGRectInset(rect, 1, 1);
+	CGRect ovalInnerRect = CGRectInset(rect, 3, 3);
+	
+	UIBezierPath *ovalOuter = [UIBezierPath bezierPathWithOvalInRect:ovalOuterRect];
+	UIBezierPath *ovalInner = [UIBezierPath bezierPathWithOvalInRect:ovalInnerRect];
+	
+	[[UIColor whiteColor] setStroke];
+	[ovalOuter stroke];
+	
+	if (_selected) {
+		[[UIColor blueColor] setFill];
+		[ovalInner fill];
+	}
+}
+
+@end
+
+@interface YZImagePickerMainImageCell ()
+
+@property (nonatomic, strong) YZImagePickerCellSelectionView *selectionView;
+
+@end
+
+@implementation YZImagePickerMainImageCell
+
+- (void)hideSelectionView {
+	[_selectionView setAlpha:0];
+}
+
+- (BOOL)isSelected {
+	return [super isSelected];
+	
+}
+
+- (void)setSelected:(BOOL)selected {
+	[super setSelected:selected];
+	
+	[_selectionView setSelected:selected];
+	[_selectionView setNeedsDisplay];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame{
+	
+	self = [super initWithFrame:frame];
+	if (self) {
 		
-		UIView *contentView = self;
-		UIView *itemView = self.imageView;
+		_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		_imageView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self addSubview:_imageView];
+		
+		_selectionView = [[YZImagePickerCellSelectionView alloc] initWithFrame:CGRectZero];
+		_selectionView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self addSubview:_selectionView];
 		
 		self.translatesAutoresizingMaskIntoConstraints = NO;
-		self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
 		
 		NSLayoutConstraint *topConstraint =
-		[NSLayoutConstraint constraintWithItem:itemView
+		[NSLayoutConstraint constraintWithItem:self.imageView
 									 attribute:NSLayoutAttributeTop
 									 relatedBy:NSLayoutRelationEqual
-										toItem:contentView
+										toItem:self
 									 attribute:NSLayoutAttributeTop
 									multiplier:1.0f
 									  constant:0];
 		
 		NSLayoutConstraint *leadingConstraint =
-		[NSLayoutConstraint constraintWithItem:itemView
+		[NSLayoutConstraint constraintWithItem:self.imageView
 									 attribute:NSLayoutAttributeLeading
 									 relatedBy:NSLayoutRelationEqual
-										toItem:contentView
+										toItem:self
 									 attribute:NSLayoutAttributeLeading
 									multiplier:1.0f
 									  constant:0];
 		
 		NSLayoutConstraint *bottomConstraint =
-		[NSLayoutConstraint constraintWithItem:contentView
+		[NSLayoutConstraint constraintWithItem:self
 									 attribute:NSLayoutAttributeBottom
 									 relatedBy:NSLayoutRelationEqual
-										toItem:itemView
+										toItem:self.imageView
 									 attribute:NSLayoutAttributeBottom
 									multiplier:1.0f
 									  constant:0];
 		
 		NSLayoutConstraint *trailingConstraint =
-		[NSLayoutConstraint constraintWithItem:contentView
+		[NSLayoutConstraint constraintWithItem:self
 									 attribute:NSLayoutAttributeTrailing
 									 relatedBy:NSLayoutRelationEqual
-										toItem:itemView
+										toItem:self.imageView
 									 attribute:NSLayoutAttributeTrailing
 									multiplier:1.0f
 									  constant:0];
 		
-		[contentView addConstraint:topConstraint];
-		[contentView addConstraint:leadingConstraint];
-		[contentView addConstraint:bottomConstraint];
-		[contentView addConstraint:trailingConstraint];
+		[self addConstraint:topConstraint];
+		[self addConstraint:leadingConstraint];
+		[self addConstraint:bottomConstraint];
+		[self addConstraint:trailingConstraint];
+		
+		CGFloat selectionViewSize = 20;
+		[self addConstraint:
+		[NSLayoutConstraint constraintWithItem:self.selectionView
+									 attribute:NSLayoutAttributeWidth
+									 relatedBy:NSLayoutRelationEqual
+										toItem:nil
+									 attribute:NSLayoutAttributeNotAnAttribute
+									multiplier:1.0f
+									  constant:selectionViewSize]
+		 ];
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self.selectionView
+									  attribute:NSLayoutAttributeHeight
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:nil
+									  attribute:NSLayoutAttributeNotAnAttribute
+									 multiplier:1.0f
+									   constant:selectionViewSize]
+		 ];
+		
+		CGFloat padding = 5;
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self
+									  attribute:NSLayoutAttributeBottom
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:self.selectionView
+									  attribute:NSLayoutAttributeBottom
+									 multiplier:1.0f
+									   constant:padding]
+		 ];
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self
+									  attribute:NSLayoutAttributeTrailing
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:self.selectionView
+									  attribute:NSLayoutAttributeTrailing
+									 multiplier:1.0f
+									   constant:padding]
+		 ];
 	}
 	return self;
 }

@@ -229,8 +229,10 @@
 	
 	if (collectionView == self.mainCollectionView) {
 		asset = self.assetArray[indexPath.row];
+		cell.selected = [_selectedAssets containsObject:asset];
 	} else {
 		asset = self.selectedAssets[indexPath.row];
+		[cell hideSelectionView];
 	}
 	
 	UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
@@ -248,6 +250,10 @@
 		ALAsset *asset = self.assetArray[indexPath.row];
 		
 		if ([_selectedAssets containsObject:asset] == false) {
+			
+//			YZImagePickerMainImageCell *cell = (YZImagePickerMainImageCell*)[collectionView cellForItemAtIndexPath:indexPath];
+//			cell.selected = true;
+			
 			[_selectedAssets addObject:asset];
 			
 			NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
@@ -255,6 +261,8 @@
 			
 			[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
 		}
+		
+		[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 	} else {
 		
 		[collectionView.collectionViewLayout invalidateLayout];

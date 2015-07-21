@@ -20,6 +20,7 @@ FOUNDATION_EXPORT NSString *const YZImagePickerMainImageCellIdentifier;
 
 @property (strong, nonatomic) UIImageView *imageView;
 
+- (void)hideSelectionView;
 - (void)setupCellWithData:(id)data;
 
 @end
