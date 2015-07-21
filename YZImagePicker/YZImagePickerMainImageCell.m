@@ -38,19 +38,33 @@ NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageC
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, rect);
 	
-	CGRect ovalOuterRect = CGRectInset(rect, 1, 1);
-	CGRect ovalInnerRect = CGRectInset(rect, 3, 3);
+	CGFloat lineWidth = 1;
 	
-	UIBezierPath *ovalOuter = [UIBezierPath bezierPathWithOvalInRect:ovalOuterRect];
-	UIBezierPath *ovalInner = [UIBezierPath bezierPathWithOvalInRect:ovalInnerRect];
+	CGRect ovalRect = CGRectInset(rect, lineWidth, lineWidth);
 	
-	[[UIColor whiteColor] setStroke];
-	[ovalOuter stroke];
+	CGContextSetLineWidth(context, lineWidth);
+	CGContextSetFillColorWithColor(context, self.tintColor.CGColor);
+	CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
 	
 	if (_selected) {
-		[[UIColor blueColor] setFill];
-		[ovalInner fill];
+		CGContextFillEllipseInRect(context, ovalRect);
 	}
+	
+	CGContextStrokeEllipseInRect(context, ovalRect);
+	
+	if (_selected) {
+		
+		CGPoint p1 = CGPointMake(0.25, 0.5);
+		CGPoint p2 = CGPointMake(0.45, 0.7);
+		CGPoint p3 = CGPointMake(0.8, 0.35);
+		
+		CGContextMoveToPoint(context, CGRectGetWidth(rect) * p1.x, CGRectGetHeight(rect) * p1.y);
+		CGContextAddLineToPoint(context, CGRectGetWidth(rect) * p2.x, CGRectGetHeight(rect) * p2.y);
+		CGContextAddLineToPoint(context, CGRectGetWidth(rect) * p3.x, CGRectGetHeight(rect) * p3.y);
+		
+		CGContextStrokePath(context);
+	}
+	
 }
 
 @end
