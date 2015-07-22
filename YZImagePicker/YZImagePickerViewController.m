@@ -251,9 +251,6 @@
 		
 		if ([_selectedAssets containsObject:asset] == false) {
 			
-//			YZImagePickerMainImageCell *cell = (YZImagePickerMainImageCell*)[collectionView cellForItemAtIndexPath:indexPath];
-//			cell.selected = true;
-			
 			[_selectedAssets addObject:asset];
 			
 			NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
@@ -265,8 +262,17 @@
 		[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 	} else {
 		
+		ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
+		
 		[collectionView.collectionViewLayout invalidateLayout];
 		[_selectedAssets removeObjectAtIndex:indexPath.row];
+		
+		NSUInteger rowInMainColView = [_assetArray indexOfObject:assetToBeRemoved];
+		if (rowInMainColView != NSNotFound) {
+			
+			NSIndexPath *indexPathInMainColView = [NSIndexPath indexPathForItem:rowInMainColView inSection:0];
+			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPathInMainColView]];
+		}
 		
 		NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
 		[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
