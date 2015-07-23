@@ -14,7 +14,8 @@
 
 @import AssetsLibrary;
 #import "YZImagePickerViewController.h"
-#import "YZImagePickerMainImageCell.h"
+#import "YZImagePickerMainAssetCell.h"
+#import "YZImagePickerSelectedAssetCell.h"
 #import "YZAssetGroupSelectionViewController.h"
 #import "YZImagePickerMainFlowLayout.h"
 #import "YZImagePickerSelectedFlowLayout.h"
@@ -93,7 +94,7 @@
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.dataSource = self;
 	self.mainCollectionView.backgroundColor = [UIColor whiteColor];
-	[self.mainCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
+	[self.mainCollectionView registerClass:[YZImagePickerMainAssetCell class] forCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier];
 
 	YZImagePickerSelectedFlowLayout *selLayout = [YZImagePickerSelectedFlowLayout new];
 	self.selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
@@ -102,7 +103,7 @@
     self.selectedCollectionView.delegate = self;
     self.selectedCollectionView.dataSource = self;
 	self.selectedCollectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-	[self.selectedCollectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
+	[self.selectedCollectionView registerClass:[YZImagePickerSelectedAssetCell class] forCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier];
     
     [self.mainCollectionView reloadData];
     [self.selectedCollectionView reloadData];
@@ -134,7 +135,8 @@
 	_assetArray = [NSMutableArray array];
 	[group setAssetsFilter:filter];
 	
-	[_groupSelectionButton setTitle:[group valueForProperty:ALAssetsGroupPropertyName] forState:UIControlStateNormal];
+	[_groupSelectionButton setTitle:[NSString stringWithFormat:@"%@ ▾", [group valueForProperty:ALAssetsGroupPropertyName]] forState:UIControlStateNormal];
+	[_groupSelectionButton sizeToFit];
 	
 	NSInteger numberOfAssets = [group numberOfAssets];
 	__block NSInteger count = 0;
@@ -223,21 +225,19 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 	
-	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
-	
+	YZImagePickerAssetCell *cell;
 	ALAsset *asset;
 	
 	if (collectionView == self.mainCollectionView) {
+		cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier forIndexPath:indexPath];
 		asset = self.assetArray[indexPath.row];
 		cell.selected = [_selectedAssets containsObject:asset];
 	} else {
+		cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier forIndexPath:indexPath];
 		asset = self.selectedAssets[indexPath.row];
-		[cell hideSelectionView];
 	}
 	
 	UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
-	
-	[cell setupCellWithData:nil];
 	[cell.imageView setImage:image];
 	
 	return cell;

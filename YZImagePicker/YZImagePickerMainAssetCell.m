@@ -1,6 +1,6 @@
 /*
  
- Copyright (c) 2014 Yichi Zhang
+ Copyright (c) 2015 Yichi Zhang
  https://github.com/yichizhang
  zhang-yi-chi@hotmail.com
  
@@ -12,9 +12,10 @@
  
  */
 
-#import "YZImagePickerMainImageCell.h"
+#import "YZImagePickerAssetCell.h"
+#import "YZImagePickerMainAssetCell.h"
 
-NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageCell";
+NSString *const YZImagePickerMainAssetCellIdentifier = @"YZImagePickerMainAssetCell";
 
 @interface YZImagePickerCellSelectionView : UIView
 
@@ -69,17 +70,13 @@ NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageC
 
 @end
 
-@interface YZImagePickerMainImageCell ()
+@interface YZImagePickerMainAssetCell ()
 
 @property (nonatomic, strong) YZImagePickerCellSelectionView *selectionView;
 
 @end
 
-@implementation YZImagePickerMainImageCell
-
-- (void)hideSelectionView {
-	[_selectionView setAlpha:0];
-}
+@implementation YZImagePickerMainAssetCell
 
 - (BOOL)isSelected {
 	return [super isSelected];
@@ -97,67 +94,19 @@ NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageC
 	
 	self = [super initWithFrame:frame];
 	if (self) {
-		
-		_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		_imageView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self addSubview:_imageView];
-		
 		_selectionView = [[YZImagePickerCellSelectionView alloc] initWithFrame:CGRectZero];
 		_selectionView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:_selectionView];
 		
-		self.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		NSLayoutConstraint *topConstraint =
-		[NSLayoutConstraint constraintWithItem:self.imageView
-									 attribute:NSLayoutAttributeTop
-									 relatedBy:NSLayoutRelationEqual
-										toItem:self
-									 attribute:NSLayoutAttributeTop
-									multiplier:1.0f
-									  constant:0];
-		
-		NSLayoutConstraint *leadingConstraint =
-		[NSLayoutConstraint constraintWithItem:self.imageView
-									 attribute:NSLayoutAttributeLeading
-									 relatedBy:NSLayoutRelationEqual
-										toItem:self
-									 attribute:NSLayoutAttributeLeading
-									multiplier:1.0f
-									  constant:0];
-		
-		NSLayoutConstraint *bottomConstraint =
-		[NSLayoutConstraint constraintWithItem:self
-									 attribute:NSLayoutAttributeBottom
-									 relatedBy:NSLayoutRelationEqual
-										toItem:self.imageView
-									 attribute:NSLayoutAttributeBottom
-									multiplier:1.0f
-									  constant:0];
-		
-		NSLayoutConstraint *trailingConstraint =
-		[NSLayoutConstraint constraintWithItem:self
-									 attribute:NSLayoutAttributeTrailing
-									 relatedBy:NSLayoutRelationEqual
-										toItem:self.imageView
-									 attribute:NSLayoutAttributeTrailing
-									multiplier:1.0f
-									  constant:0];
-		
-		[self addConstraint:topConstraint];
-		[self addConstraint:leadingConstraint];
-		[self addConstraint:bottomConstraint];
-		[self addConstraint:trailingConstraint];
-		
 		CGFloat selectionViewSize = 20;
 		[self addConstraint:
-		[NSLayoutConstraint constraintWithItem:self.selectionView
-									 attribute:NSLayoutAttributeWidth
-									 relatedBy:NSLayoutRelationEqual
-										toItem:nil
-									 attribute:NSLayoutAttributeNotAnAttribute
-									multiplier:1.0f
-									  constant:selectionViewSize]
+		 [NSLayoutConstraint constraintWithItem:self.selectionView
+									  attribute:NSLayoutAttributeWidth
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:nil
+									  attribute:NSLayoutAttributeNotAnAttribute
+									 multiplier:1.0f
+									   constant:selectionViewSize]
 		 ];
 		[self addConstraint:
 		 [NSLayoutConstraint constraintWithItem:self.selectionView
@@ -190,11 +139,6 @@ NSString *const YZImagePickerMainImageCellIdentifier = @"YZImagePickerMainImageC
 		 ];
 	}
 	return self;
-}
-
-- (void)setupCellWithData:(id)data{
-    
-    
 }
 
 @end
