@@ -13,8 +13,6 @@
  */
 
 #import "YZMainViewController.h"
-#import "YZImagePickerMainImageCell.h"
-
 #import "YZImagePickerViewController.h"
 
 @interface YZMainViewController ()
@@ -67,7 +65,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
-	[self.collectionView registerClass:[YZImagePickerMainImageCell class] forCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,82 +103,6 @@
                      completion:nil
      ];
     
-}
-
-#pragma mark UICollectionViewDelegate & DataSource
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    
-    return
-    [self.dataArray count];
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-	YZImagePickerMainImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerMainImageCellIdentifier forIndexPath:indexPath];
-	
-    UIImage *image =
-    self.dataArray[indexPath.row];
-    
-    [cell setupCellWithData:nil];
-    [cell.imageView setImage:image];
-    
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-
-}
-
-#pragma mark - UICollectionViewDelegateFlowLayout conformance
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    /*
-    double screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    
-    float k;
-    k = 0.33;
-    */
-    
-    CGFloat w;
-    CGFloat h;
-    
-    w = 100;
-    h = 100;
-    
-    return CGSizeMake(w, h);
-
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    
-    //double screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    float top;
-    float left;
-    float bottom;
-    float right;
-    
-    top = 0;
-    left = 0;
-    bottom = 0;
-    right = 0;
-    
-    return UIEdgeInsetsMake(top, left, bottom, right);
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    
-    return 0.0;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    
-    return 0.0;
 }
 
 @end

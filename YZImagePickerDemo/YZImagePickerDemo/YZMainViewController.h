@@ -14,6 +14,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YZMainViewController : UICollectionViewController
+@interface YZMainViewController : UIViewController
 
 @end
