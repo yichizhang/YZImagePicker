@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *assetArray;
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
+@property (nonatomic, strong) UILabel *noSelectionLabel;
 
 @end
 
@@ -107,6 +108,12 @@
     
     [self.mainCollectionView reloadData];
     [self.selectedCollectionView reloadData];
+	
+	_noSelectionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+	_noSelectionLabel.text = @"Please select an asset";
+	_noSelectionLabel.textColor = [UIColor darkGrayColor];
+	_noSelectionLabel.font = [UIFont boldSystemFontOfSize:20];
+	[self.view addSubview:_noSelectionLabel];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -122,6 +129,9 @@
 	CGFloat mainHeight = CGRectGetHeight(self.view.bounds) - selHeight;
 	self.mainCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), mainHeight);
 	self.selectedCollectionView.frame = CGRectMake(0, mainHeight, CGRectGetWidth(self.view.bounds), selHeight);
+	
+	[_noSelectionLabel sizeToFit];
+	[_noSelectionLabel setCenter:CGPointMake(CGRectGetMidX(_selectedCollectionView.frame), CGRectGetMidY(_selectedCollectionView.frame))];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -257,6 +267,13 @@
 			[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
 			
 			[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+			
+			if (_selectedAssets.count == 1) {
+				[UIView animateWithDuration:0.2 animations:^{
+					
+					_noSelectionLabel.alpha = 0.0;
+				}];
+			}
 		}
 		
 		[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -276,6 +293,13 @@
 		
 		NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
 		[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
+		
+		if (_selectedAssets.count == 0) {
+			[UIView animateWithDuration:0.2 animations:^{
+				
+				_noSelectionLabel.alpha = 1.0;
+			}];
+		}
 	}
 }
 
