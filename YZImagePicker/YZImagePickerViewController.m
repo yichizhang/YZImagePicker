@@ -89,49 +89,54 @@
 	}];
 	
 	YZImagePickerMainFlowLayout *mainLayout = [YZImagePickerMainFlowLayout new];
-	self.mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:mainLayout];
-	[self.view addSubview:self.mainCollectionView];
-	
-    self.mainCollectionView.delegate = self;
-    self.mainCollectionView.dataSource = self;
-	self.mainCollectionView.backgroundColor = [UIColor whiteColor];
-	[self.mainCollectionView registerClass:[YZImagePickerMainAssetCell class] forCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier];
+	_mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:mainLayout];
+    _mainCollectionView.delegate = self;
+    _mainCollectionView.dataSource = self;
+	_mainCollectionView.backgroundColor = [UIColor whiteColor];
+	[_mainCollectionView registerClass:[YZImagePickerMainAssetCell class] forCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier];
 
 	YZImagePickerSelectedFlowLayout *selLayout = [YZImagePickerSelectedFlowLayout new];
-	self.selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
-	[self.view addSubview:self.selectedCollectionView];
-	
-    self.selectedCollectionView.delegate = self;
-    self.selectedCollectionView.dataSource = self;
-	self.selectedCollectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-	[self.selectedCollectionView registerClass:[YZImagePickerSelectedAssetCell class] forCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier];
-    
-    [self.mainCollectionView reloadData];
-    [self.selectedCollectionView reloadData];
+	_selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
+    _selectedCollectionView.delegate = self;
+    _selectedCollectionView.dataSource = self;
+	_selectedCollectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+	[_selectedCollectionView registerClass:[YZImagePickerSelectedAssetCell class] forCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier];
 	
 	_noSelectionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	_noSelectionLabel.text = @"Please select an asset";
 	_noSelectionLabel.textColor = [UIColor darkGrayColor];
 	_noSelectionLabel.font = [UIFont boldSystemFontOfSize:20];
+	
+	_mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+	_selectedCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+	_noSelectionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_mainCollectionView];
+	[self.view addSubview:_selectedCollectionView];
 	[self.view addSubview:_noSelectionLabel];
+	
+	[self.view addConstraints:@[
+								
+	[NSLayoutConstraint constraintWithItem:_mainCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_mainCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_selectedCollectionView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_mainCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_mainCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+	
+	[NSLayoutConstraint constraintWithItem:_selectedCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:100],
+	[NSLayoutConstraint constraintWithItem:_selectedCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_selectedCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_selectedCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+	
+	[NSLayoutConstraint constraintWithItem:_noSelectionLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_selectedCollectionView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_noSelectionLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_selectedCollectionView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+	
+	]];
+	
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     
     [super viewDidDisappear:animated];
     
-}
-
-- (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
-	
-	CGFloat selHeight = 100;
-	CGFloat mainHeight = CGRectGetHeight(self.view.bounds) - selHeight;
-	self.mainCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), mainHeight);
-	self.selectedCollectionView.frame = CGRectMake(0, mainHeight, CGRectGetWidth(self.view.bounds), selHeight);
-	
-	[_noSelectionLabel sizeToFit];
-	[_noSelectionLabel setCenter:CGPointMake(CGRectGetMidX(_selectedCollectionView.frame), CGRectGetMidY(_selectedCollectionView.frame))];
 }
 
 - (void)didReceiveMemoryWarning {
