@@ -145,6 +145,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidLayoutSubviews {
+	[super viewDidLayoutSubviews];
+	
+	// FIXME: There are extra views added when the orientation changes.
+	NSLog(@"------------------------------");
+	for (UIView *v in self.view.subviews) {
+		NSLog(@"---%@---", v);
+		
+		if (v != self.mainCollectionView && v != self.selectedCollectionView && v != self.noSelectionLabel) {
+			[v removeFromSuperview];
+		}
+	}
+	NSLog(@"------------------------------");
+}
+
 #pragma mark - Update
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
 	_assetArray = [NSMutableArray array];
