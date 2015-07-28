@@ -23,6 +23,7 @@
 @interface YZImagePickerViewController ()
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
+@property (nonatomic, strong) ALAssetsFilter *assetsFilter;
 @property (nonatomic, strong) NSMutableArray *assetArray;
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
@@ -34,6 +35,7 @@
 
 - (void)commonInit{
 	_library = [ALAssetsLibrary new];
+	_assetsFilter = [ALAssetsFilter allPhotos];
 	_selectedAssets = [NSMutableArray new];
 }
 
@@ -82,7 +84,7 @@
 			firstGroup = group;
 			*stop = true;
 			
-			[self updateAssestsWithGroup:firstGroup assetsFilter:[ALAssetsFilter allPhotos]];
+			[self updateAssestsWithGroup:firstGroup assetsFilter:_assetsFilter];
 		}
 	} failureBlock:^(NSError *error) {
 		
@@ -231,7 +233,7 @@
 #pragma mark - YZAssetGroupSelectionDelegate Delegate
 - (void)assetGroupSelectionViewController:(YZAssetGroupSelectionViewController*)vc didSelectAssetsGroup:(ALAssetsGroup*)group {
 	
-	[self updateAssestsWithGroup:group assetsFilter:[ALAssetsFilter allPhotos]];
+	[self updateAssestsWithGroup:group assetsFilter:_assetsFilter];
 }
 
 #pragma mark UICollectionViewDelegate & DataSource
