@@ -19,6 +19,7 @@
 #import "YZAssetGroupSelectionViewController.h"
 #import "YZImagePickerMainFlowLayout.h"
 #import "YZImagePickerSelectedFlowLayout.h"
+#import "YZImagePreviewViewController.h"
 
 @interface YZImagePickerViewController ()
 
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
 @property (nonatomic, strong) UILabel *noSelectionLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 
 @end
 
@@ -96,6 +98,9 @@
     _mainCollectionView.dataSource = self;
 	_mainCollectionView.backgroundColor = [UIColor whiteColor];
 	[_mainCollectionView registerClass:[YZImagePickerMainAssetCell class] forCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier];
+	
+	_tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
+	[_mainCollectionView addGestureRecognizer:_tapGR];
 
 	YZImagePickerSelectedFlowLayout *selLayout = [YZImagePickerSelectedFlowLayout new];
 	_selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
@@ -230,6 +235,60 @@
 	}
 }
 
+#pragma mark - Gesture Recogonizer Handler
+- (void)tapGestureHandler:(UIPanGestureRecognizer*)gr {
+	
+	CGPoint point = [gr locationInView:_mainCollectionView];
+	
+	NSIndexPath *indexPath = [_mainCollectionView indexPathForItemAtPoint:point];
+	
+	if (indexPath) {
+		ALAsset *asset = self.assetArray[indexPath.row];
+		
+		UICollectionViewCell *cell = [_mainCollectionView cellForItemAtIndexPath:indexPath];
+		CGPoint pointInCell = [gr locationInView:cell];
+		
+		if (
+			cell &&
+			pointInCell.x < CGRectGetWidth(cell.frame) * 0.4 &&
+			pointInCell.y < CGRectGetHeight(cell.frame) * 0.4
+			) {
+			
+			// Tapped at the left part and the top part of the cell.
+			// Show user preview.
+			UIImage *image = [UIImage imageWithCGImage:
+							  [[asset defaultRepresentation] fullResolutionImage]
+							  ];
+			
+			YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
+			
+			[self.navigationController pushViewController:previewVC animated:true];
+		} else {
+			
+			// Tapped at the bottom right corner of the cell.
+			// Add the asset to selected assets.
+			if ([_selectedAssets containsObject:asset] == false) {
+				
+				[_selectedAssets addObject:asset];
+				
+				NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
+				[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+				
+				[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+				
+				if (_selectedAssets.count == 1) {
+					[UIView animateWithDuration:0.2 animations:^{
+						
+						_noSelectionLabel.alpha = 0.0;
+					}];
+				}
+			}
+			
+			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+		}
+	}
+}
+
 #pragma mark - YZAssetGroupSelectionDelegate Delegate
 - (void)assetGroupSelectionViewController:(YZAssetGroupSelectionViewController*)vc didSelectAssetsGroup:(ALAssetsGroup*)group {
 	
@@ -279,26 +338,7 @@
 	
 	if (collectionView == self.mainCollectionView) {
 		
-		ALAsset *asset = self.assetArray[indexPath.row];
 		
-		if ([_selectedAssets containsObject:asset] == false) {
-			
-			[_selectedAssets addObject:asset];
-			
-			NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
-			[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
-			
-			[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-			
-			if (_selectedAssets.count == 1) {
-				[UIView animateWithDuration:0.2 animations:^{
-					
-					_noSelectionLabel.alpha = 0.0;
-				}];
-			}
-		}
-		
-		[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 	} else {
 		
 		ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
