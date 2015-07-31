@@ -77,9 +77,9 @@
 	[_groupSelectionButton addTarget:self action:@selector(selectGroupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.titleView = _groupSelectionButton;
 	
-	// Load first group
+	// Load the first group in the Camera Roll.
 	__block ALAssetsGroup *firstGroup = nil;
-	[_library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+	[_library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
 		
 		if (group) {
 			firstGroup = group;
