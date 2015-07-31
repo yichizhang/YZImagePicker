@@ -29,7 +29,6 @@
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
 @property (nonatomic, strong) UILabel *noSelectionLabel;
-@property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 
 @end
 
@@ -98,9 +97,6 @@
     _mainCollectionView.dataSource = self;
 	_mainCollectionView.backgroundColor = [UIColor whiteColor];
 	[_mainCollectionView registerClass:[YZImagePickerMainAssetCell class] forCellWithReuseIdentifier:YZImagePickerMainAssetCellIdentifier];
-	
-	_tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
-	[_mainCollectionView addGestureRecognizer:_tapGR];
 
 	YZImagePickerSelectedFlowLayout *selLayout = [YZImagePickerSelectedFlowLayout new];
 	_selectedCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:selLayout];
@@ -108,6 +104,9 @@
     _selectedCollectionView.dataSource = self;
 	_selectedCollectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
 	[_selectedCollectionView registerClass:[YZImagePickerSelectedAssetCell class] forCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier];
+	
+	[_mainCollectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainCollectionViewTapped:)]];
+	[_selectedCollectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedCollectionViewTapped:)]];
 	
 	_noSelectionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	_noSelectionLabel.text = @"Please select an asset";
@@ -235,11 +234,22 @@
 	}
 }
 
+- (void)showPreviewForAsset:(ALAsset*)asset {
+	
+	UIImage *image = [UIImage imageWithCGImage:
+					  [[asset defaultRepresentation] fullResolutionImage]
+					  ];
+	
+	YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
+	
+	[self.navigationController pushViewController:previewVC animated:true];
+
+}
+
 #pragma mark - Gesture Recogonizer Handler
-- (void)tapGestureHandler:(UIPanGestureRecognizer*)gr {
+- (void)mainCollectionViewTapped:(UIPanGestureRecognizer*)gr {
 	
-	CGPoint point = [gr locationInView:_mainCollectionView];
-	
+	CGPoint point = [gr locationInView:gr.view];
 	NSIndexPath *indexPath = [_mainCollectionView indexPathForItemAtPoint:point];
 	
 	if (indexPath) {
@@ -256,13 +266,8 @@
 			
 			// Tapped at the left part and the top part of the cell.
 			// Show user preview.
-			UIImage *image = [UIImage imageWithCGImage:
-							  [[asset defaultRepresentation] fullResolutionImage]
-							  ];
+			[self showPreviewForAsset:asset];
 			
-			YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
-			
-			[self.navigationController pushViewController:previewVC animated:true];
 		} else {
 			
 			// Tapped at the bottom right corner of the cell.
@@ -285,6 +290,55 @@
 			}
 			
 			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+		}
+	}
+}
+
+- (void)selectedCollectionViewTapped:(UIPanGestureRecognizer*)gr {
+	
+	CGPoint point = [gr locationInView:gr.view];
+	NSIndexPath *indexPath = [_mainCollectionView indexPathForItemAtPoint:point];
+	
+	if (indexPath) {
+		UICollectionViewCell *cell = [_selectedCollectionView cellForItemAtIndexPath:indexPath];
+		CGPoint pointInCell = [gr locationInView:cell];
+		
+		ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
+		
+		if (
+			cell &&
+			pointInCell.x < CGRectGetWidth(cell.frame) * 0.6 &&
+			pointInCell.y < CGRectGetHeight(cell.frame) * 0.6
+			) {
+			
+			// Tapped at the top left corner of the cell.
+			// Remove asset from the selected asset array.
+			[_selectedCollectionView.collectionViewLayout invalidateLayout];
+			[_selectedAssets removeObjectAtIndex:indexPath.row];
+			
+			NSUInteger rowInMainColView = [_assetArray indexOfObject:assetToBeRemoved];
+			if (rowInMainColView != NSNotFound) {
+				
+				NSIndexPath *indexPathInMainColView = [NSIndexPath indexPathForItem:rowInMainColView inSection:0];
+				[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPathInMainColView]];
+			}
+			
+			NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
+			[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
+			
+			if (_selectedAssets.count == 0) {
+				[UIView animateWithDuration:0.2 animations:^{
+					
+					_noSelectionLabel.alpha = 1.0;
+				}];
+			}
+			
+		} else {
+			
+			// Tapped bottom or right part of the cell.
+			// Show preview.
+			[self showPreviewForAsset:assetToBeRemoved];
+			
 		}
 	}
 }
@@ -336,33 +390,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 	
-	if (collectionView == self.mainCollectionView) {
-		
-		
-	} else {
-		
-		ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
-		
-		[collectionView.collectionViewLayout invalidateLayout];
-		[_selectedAssets removeObjectAtIndex:indexPath.row];
-		
-		NSUInteger rowInMainColView = [_assetArray indexOfObject:assetToBeRemoved];
-		if (rowInMainColView != NSNotFound) {
-			
-			NSIndexPath *indexPathInMainColView = [NSIndexPath indexPathForItem:rowInMainColView inSection:0];
-			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPathInMainColView]];
-		}
-		
-		NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
-		[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
-		
-		if (_selectedAssets.count == 0) {
-			[UIView animateWithDuration:0.2 animations:^{
-				
-				_noSelectionLabel.alpha = 1.0;
-			}];
-		}
-	}
+	return;
 }
 
 #pragma mark -
