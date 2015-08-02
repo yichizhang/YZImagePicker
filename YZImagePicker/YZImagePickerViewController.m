@@ -179,11 +179,11 @@
 	[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
 		if (result) {
 			[_assetArray addObject:result];
-			
 			count++;
-			if (count == numberOfAssets) {
-				[self.mainCollectionView reloadData];
-			}
+		}
+		
+		if (count >= numberOfAssets) {
+			[self.mainCollectionView reloadData];
 		}
 	}];
 }
