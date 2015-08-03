@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray *assetArray;
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, strong) UIButton *groupSelectionButton;
+@property (nonatomic, strong) UILabel *noAssetsInAlbumLabel;
 @property (nonatomic, strong) UILabel *noSelectionLabel;
 
 @end
@@ -70,7 +71,7 @@
 	
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
 	
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTapped:)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Finish" style:UIBarButtonItemStylePlain target:self action:@selector(finishButtonTapped:)];
 	
 	_groupSelectionButton = [UIButton buttonWithType:UIButtonTypeSystem];
 	[_groupSelectionButton setTitle:@"Select Group" forState:UIControlStateNormal];
@@ -113,12 +114,20 @@
 	_noSelectionLabel.textColor = [UIColor darkGrayColor];
 	_noSelectionLabel.font = [UIFont boldSystemFontOfSize:20];
 	
+	_noAssetsInAlbumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+	_noAssetsInAlbumLabel.textColor = [UIColor lightGrayColor];
+	_noAssetsInAlbumLabel.font = [UIFont boldSystemFontOfSize:20];
+	_noAssetsInAlbumLabel.alpha = 0.f;
+	_noAssetsInAlbumLabel.numberOfLines = 0;
+	
 	_mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
 	_selectedCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
 	_noSelectionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	_noAssetsInAlbumLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	[self.view addSubview:_mainCollectionView];
 	[self.view addSubview:_selectedCollectionView];
 	[self.view addSubview:_noSelectionLabel];
+	[self.view addSubview:_noAssetsInAlbumLabel];
 	
 	[self.view addConstraints:@[
 								
@@ -134,6 +143,10 @@
 	
 	[NSLayoutConstraint constraintWithItem:_noSelectionLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_selectedCollectionView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
 	[NSLayoutConstraint constraintWithItem:_noSelectionLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_selectedCollectionView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+	
+	[NSLayoutConstraint constraintWithItem:_noAssetsInAlbumLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_mainCollectionView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_noAssetsInAlbumLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_mainCollectionView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_noAssetsInAlbumLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:_mainCollectionView attribute:NSLayoutAttributeWidth multiplier:0.62 constant:0],
 	
 	]];
 	
@@ -159,7 +172,11 @@
 	for (UIView *v in self.view.subviews) {
 		NSLog(@"---%@---", v);
 		
-		if (v != self.mainCollectionView && v != self.selectedCollectionView && v != self.noSelectionLabel) {
+		if (v != self.mainCollectionView &&
+			v != self.selectedCollectionView &&
+			v != self.noSelectionLabel &&
+			v != self.noAssetsInAlbumLabel) {
+			
 			[v removeFromSuperview];
 		}
 	}
@@ -168,13 +185,16 @@
 
 #pragma mark - Update
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
-	_assetArray = [NSMutableArray array];
-	[group setAssetsFilter:filter];
 	
-	[_groupSelectionButton setTitle:[NSString stringWithFormat:@"%@ ▾", [group valueForProperty:ALAssetsGroupPropertyName]] forState:UIControlStateNormal];
+	NSString *groupName = [group valueForProperty:ALAssetsGroupPropertyName];
+	NSInteger numberOfAssets = [group numberOfAssets];
+	
+	[group setAssetsFilter:filter];
+	_assetArray = [NSMutableArray array];
+	
+	[_groupSelectionButton setTitle:[NSString stringWithFormat:@"%@ ▾", groupName] forState:UIControlStateNormal];
 	[_groupSelectionButton sizeToFit];
 	
-	NSInteger numberOfAssets = [group numberOfAssets];
 	__block NSInteger count = 0;
 	[group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
 		if (result) {
@@ -186,6 +206,14 @@
 			[self.mainCollectionView reloadData];
 		}
 	}];
+	
+	if (numberOfAssets == 0) {
+		_noAssetsInAlbumLabel.text = [NSString stringWithFormat:@"There are no assets in album '%@'.", groupName];
+		_noAssetsInAlbumLabel.alpha = 1.f;
+	} else {
+		_noAssetsInAlbumLabel.text = nil;
+		_noAssetsInAlbumLabel.alpha = 0.f;
+	}
 }
 
 #pragma mark - Actions
@@ -193,14 +221,13 @@
 	[self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)reloadButtonTapped:(id)sender {
-	[self.mainCollectionView reloadData];
-	[self.selectedCollectionView reloadData];
+- (void)finishButtonTapped:(id)sender {
+	NSLog(@"%s called.", __FUNCTION__);
 }
 
 - (void)selectGroupButtonTapped:(UIButton*)sender {
 	
-	YZAssetGroupSelectionViewController *vc = [YZAssetGroupSelectionViewController alloc];
+	YZAssetGroupSelectionViewController *vc = [[YZAssetGroupSelectionViewController alloc] init];
 	[vc updateGroupsWithLibrary:_library groupTypes:ALAssetsGroupAll];
 	vc.delegate = self;
 	
