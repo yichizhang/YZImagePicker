@@ -37,6 +37,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.layer.masksToBounds = YES;
 	
 	_imageView = [[UIImageView alloc] initWithImage:_image];
 	_imageView.translatesAutoresizingMaskIntoConstraints = NO;
