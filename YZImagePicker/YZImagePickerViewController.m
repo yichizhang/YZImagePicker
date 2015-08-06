@@ -21,7 +21,32 @@
 #import "YZImagePickerSelectedFlowLayout.h"
 #import "YZImagePreviewViewController.h"
 
-@interface YZImagePickerViewController ()
+#pragma mark - YZImagePickerViewController
+
+@interface YZImagePickerMainViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, YZAssetGroupSelectionDelegate, UIPopoverPresentationControllerDelegate>
+
+@property (nonatomic, strong) UICollectionView *mainCollectionView;
+@property (nonatomic, strong) UICollectionView *selectedCollectionView;
+
+@end
+
+@implementation YZImagePickerViewController
+
+- (void)commonInit{
+	[self pushViewController:[YZImagePickerMainViewController new] animated:NO];
+}
+
+- (instancetype)init {
+	if(self = [super init])
+	{
+		[self commonInit];
+	}
+	return self;
+}
+
+@end
+
+@interface YZImagePickerMainViewController ()
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 @property (nonatomic, strong) ALAssetsFilter *assetsFilter;
@@ -33,7 +58,7 @@
 
 @end
 
-@implementation YZImagePickerViewController 
+@implementation YZImagePickerMainViewController
 
 - (void)commonInit{
 	_library = [ALAssetsLibrary new];

@@ -86,19 +86,11 @@
 
 - (void)addButtonTapped:(id)sender{
     
-    YZImagePickerViewController *vc =
-    [[YZImagePickerViewController alloc]
-     initWithNibName:nil
-     bundle:nil
-     ];
+    YZImagePickerViewController *vc = [YZImagePickerViewController new];
     
+    vc.modalPresentationStyle = UIModalPresentationFormSheet;
     
-    UINavigationController *navCon =
-    [[UINavigationController alloc] initWithRootViewController:vc];
-    
-    navCon.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    [self presentViewController:navCon
+    [self presentViewController:vc
                        animated:YES
                      completion:nil
      ];
