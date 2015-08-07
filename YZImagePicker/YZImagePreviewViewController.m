@@ -14,7 +14,9 @@
 
 #import "YZImagePreviewViewController.h"
 
-@interface YZImagePreviewViewController ()
+@interface YZImagePreviewViewController () {
+	CGAffineTransform transformBeforeRotation;
+}
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIImageView *imageView;
@@ -93,9 +95,23 @@
 
 - (void)rotationGestureHandler:(UIRotationGestureRecognizer*)gr {
 	
+	if (gr.state == UIGestureRecognizerStateBegan) {
+	
+		transformBeforeRotation = _imageView.transform;
+	}
+	
 	_imageView.transform = CGAffineTransformRotate(_imageView.transform, gr.rotation);
 	
 	gr.rotation = 0;
+	
+	if (gr.state == UIGestureRecognizerStateEnded || gr.state == UIGestureRecognizerStateCancelled) {
+		
+		[UIView animateWithDuration:0.5 animations:^{
+			
+			CGFloat s = _imageView.transform.a / transformBeforeRotation.a;
+			_imageView.transform = CGAffineTransformScale(transformBeforeRotation, s, s);
+		}];
+	}
 }
 
 @end
