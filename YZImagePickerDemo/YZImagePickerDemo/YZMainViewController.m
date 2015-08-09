@@ -87,7 +87,12 @@
 - (void)addButtonTapped:(id)sender{
     
     YZImagePickerViewController *vc = [YZImagePickerViewController new];
-    
+	
+	vc.didFinishPickingClosure = ^(NSArray *mediaArray) {
+		
+		NSLog(@"%@", mediaArray);
+	};
+	
     vc.modalPresentationStyle = UIModalPresentationFormSheet;
     
     [self presentViewController:vc

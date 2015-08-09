@@ -23,17 +23,27 @@
 
 #pragma mark - YZImagePickerViewController
 
+@interface YZImagePickerViewController () <YZImagePickerDelegate>
+
+
+
+@end
+
 @interface YZImagePickerMainViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, YZAssetGroupSelectionDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
 @property (nonatomic, strong) UICollectionView *selectedCollectionView;
+@property (nonatomic, assign) id<YZImagePickerDelegate> delegate;
 
 @end
 
 @implementation YZImagePickerViewController
 
 - (void)commonInit{
-	[self pushViewController:[YZImagePickerMainViewController new] animated:NO];
+	YZImagePickerMainViewController *vc = [YZImagePickerMainViewController new];
+	vc.delegate = self;
+	
+	[self pushViewController:vc animated:NO];
 }
 
 - (instancetype)init {
@@ -42,6 +52,17 @@
 		[self commonInit];
 	}
 	return self;
+}
+
+- (void)imagePickerController:(UIViewController *)picker didFinishPicking:(NSArray *)mediaArray {
+
+	if ([self.imagePickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPicking:)]) {
+		[self.imagePickerDelegate imagePickerController:self didFinishPicking:mediaArray];
+	}
+	
+	if (self.didFinishPickingClosure) {
+		self.didFinishPickingClosure(mediaArray);
+	}
 }
 
 @end
@@ -247,7 +268,19 @@
 }
 
 - (void)finishButtonTapped:(id)sender {
-	NSLog(@"%s called.", __FUNCTION__);
+	if ([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPicking:)]) {
+		
+		// FIXME: Temporary implementation
+		NSMutableArray *mediaArray = [NSMutableArray new];
+		
+		for (ALAsset *asset in _selectedAssets) {
+			[mediaArray addObject:[asset valueForProperty:ALAssetPropertyAssetURL]];
+		}
+		
+		[self.delegate imagePickerController:self didFinishPicking:mediaArray];
+	}
+	
+	[self dismissViewControllerAnimated:true completion:nil];
 }
 
 - (void)selectGroupButtonTapped:(UIButton*)sender {

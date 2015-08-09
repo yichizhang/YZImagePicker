@@ -15,6 +15,16 @@
 #import <UIKit/UIKit.h>
 #import "YZAssetGroupSelectionViewController.h"
 
+@protocol YZImagePickerDelegate <NSObject>
+
+- (void)imagePickerController:(UIViewController *)picker didFinishPicking:(NSArray *)mediaArray;
+
+@end
+
 @interface YZImagePickerViewController : UINavigationController
+
+@property(nonatomic, copy) NSArray *mediaTypes;
+@property(nonatomic, assign) id<YZImagePickerDelegate> imagePickerDelegate;
+@property(nonatomic, strong) void (^didFinishPickingClosure)(NSArray * mediaArray);
 
 @end
