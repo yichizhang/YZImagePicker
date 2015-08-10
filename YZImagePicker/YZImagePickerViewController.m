@@ -268,19 +268,16 @@
 }
 
 - (void)finishButtonTapped:(id)sender {
-	if ([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPicking:)]) {
+	
+	if ([_selectedAssets count] > 0) {
 		
-		// FIXME: Temporary implementation
-		NSMutableArray *mediaArray = [NSMutableArray new];
-		
-		for (ALAsset *asset in _selectedAssets) {
-			[mediaArray addObject:[asset valueForProperty:ALAssetPropertyAssetURL]];
+		if ([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPicking:)]) {
+			
+			[self.delegate imagePickerController:self didFinishPicking:_selectedAssets];
 		}
 		
-		[self.delegate imagePickerController:self didFinishPicking:mediaArray];
+		[self dismissViewControllerAnimated:true completion:nil];
 	}
-	
-	[self dismissViewControllerAnimated:true completion:nil];
 }
 
 - (void)selectGroupButtonTapped:(UIButton*)sender {
