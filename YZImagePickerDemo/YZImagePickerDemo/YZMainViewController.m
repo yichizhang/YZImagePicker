@@ -14,92 +14,151 @@
 
 #import "YZMainViewController.h"
 #import "YZImagePickerViewController.h"
+#import "YZImagePickerAssetCell.h"
 
-@interface YZMainViewController ()
+NSString *const YZDefaultTableCellIdentifier = @"YZDefaultTableCellIdentifier";
 
-@property (strong) NSMutableArray *dataArray;
+@interface YZMainViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
 @implementation YZMainViewController
 
 - (void)commonInit{
-    
-    self.title = @"Default";
+	
+	self.title = @"Default";
 }
 
 - (id)initWithCoder:(NSCoder*)aDecoder
 {
-    if(self = [super initWithCoder:aDecoder])
-    {
-        [self commonInit];
-    }
-    return self;
+	if(self = [super initWithCoder:aDecoder])
+	{
+		[self commonInit];
+	}
+	return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		[self commonInit];
+	}
+	return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    
-    self.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc]
-     initWithTitle:@"Add"
-     style:UIBarButtonItemStylePlain
-     target:self
-     action:@selector(addButtonTapped:)
-     ];
-    
+	
+	[super viewWillAppear:animated];
+	
+	self.navigationItem.rightBarButtonItem =
+	[[UIBarButtonItem alloc]
+	 initWithTitle:@"Pick"
+	 style:UIBarButtonItemStylePlain
+	 target:self
+	 action:@selector(pickButtonTapped:)
+	 ];
+	
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+	[super viewDidLoad];
+	// Do any additional setup after loading the view.
 	
+	_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+	_tableView.translatesAutoresizingMaskIntoConstraints = false;
+	_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	_tableView.delegate = self;
+	_tableView.dataSource = self;
+	
+	[self.view addSubview:_tableView];
+	[self.view addConstraints:
+  @[
+	[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+	[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+	]];
+	
+	[_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:YZDefaultTableCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (void)addButtonTapped:(id)sender{
-    
-    YZImagePickerViewController *vc = [YZImagePickerViewController new];
+- (void)pickButtonTapped:(id)sender{
 	
+	YZImagePickerViewController *vc = [YZImagePickerViewController new];
+	
+	__weak YZMainViewController* weakSelf = self;
 	vc.didFinishPickingClosure = ^(NSArray *mediaArray) {
 		
-		NSLog(@"%@", mediaArray);
+		NSMutableArray *array = [NSMutableArray arrayWithCapacity:mediaArray.count];
+		for (ALAsset *asset in mediaArray) {
+			
+			[array addObject:
+			 [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]]
+			 ];
+		}
+		weakSelf.dataArray = [array copy];
+		[weakSelf.tableView reloadData];
 	};
 	
-    vc.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    [self presentViewController:vc
-                       animated:YES
-                     completion:nil
-     ];
-    
+	vc.modalPresentationStyle = UIModalPresentationFormSheet;
+	
+	[self presentViewController:vc
+					   animated:YES
+					 completion:nil
+	 ];
+	
 }
+
+#pragma mark UITableView Delegate & DataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	
+	return [_dataArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	return 200;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	UITableViewCell *cell;
+	
+	cell = [tableView dequeueReusableCellWithIdentifier:YZDefaultTableCellIdentifier forIndexPath:indexPath];
+	
+	[cell.imageView setImage:_dataArray[indexPath.row]];
+	cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+	
+	return cell;
+}
+
 
 @end
