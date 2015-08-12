@@ -27,7 +27,7 @@
 		
 		_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 		_imageView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self addSubview:_imageView];
+		[self.contentView addSubview:_imageView];
 		
 		self.translatesAutoresizingMaskIntoConstraints = NO;
 		
@@ -35,7 +35,7 @@
 		[NSLayoutConstraint constraintWithItem:self.imageView
 									 attribute:NSLayoutAttributeTop
 									 relatedBy:NSLayoutRelationEqual
-										toItem:self
+										toItem:self.contentView
 									 attribute:NSLayoutAttributeTop
 									multiplier:1.0f
 									  constant:0];
@@ -44,13 +44,13 @@
 		[NSLayoutConstraint constraintWithItem:self.imageView
 									 attribute:NSLayoutAttributeLeading
 									 relatedBy:NSLayoutRelationEqual
-										toItem:self
+										toItem:self.contentView
 									 attribute:NSLayoutAttributeLeading
 									multiplier:1.0f
 									  constant:0];
 		
 		NSLayoutConstraint *bottomConstraint =
-		[NSLayoutConstraint constraintWithItem:self
+		[NSLayoutConstraint constraintWithItem:self.contentView
 									 attribute:NSLayoutAttributeBottom
 									 relatedBy:NSLayoutRelationEqual
 										toItem:self.imageView
@@ -59,7 +59,7 @@
 									  constant:0];
 		
 		NSLayoutConstraint *trailingConstraint =
-		[NSLayoutConstraint constraintWithItem:self
+		[NSLayoutConstraint constraintWithItem:self.contentView
 									 attribute:NSLayoutAttributeTrailing
 									 relatedBy:NSLayoutRelationEqual
 										toItem:self.imageView

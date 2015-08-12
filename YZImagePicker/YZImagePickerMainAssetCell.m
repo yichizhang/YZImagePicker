@@ -96,7 +96,7 @@ NSString *const YZImagePickerMainAssetCellIdentifier = @"YZImagePickerMainAssetC
 	if (self) {
 		_selectionView = [[YZImagePickerCellSelectionView alloc] initWithFrame:CGRectZero];
 		_selectionView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self addSubview:_selectionView];
+		[self.contentView addSubview:_selectionView];
 		
 		CGFloat selectionViewSize = 20;
 		[self addConstraint:
@@ -120,7 +120,7 @@ NSString *const YZImagePickerMainAssetCellIdentifier = @"YZImagePickerMainAssetC
 		
 		CGFloat padding = 5;
 		[self addConstraint:
-		 [NSLayoutConstraint constraintWithItem:self
+		 [NSLayoutConstraint constraintWithItem:self.contentView
 									  attribute:NSLayoutAttributeBottom
 									  relatedBy:NSLayoutRelationEqual
 										 toItem:self.selectionView
@@ -129,7 +129,7 @@ NSString *const YZImagePickerMainAssetCellIdentifier = @"YZImagePickerMainAssetC
 									   constant:padding]
 		 ];
 		[self addConstraint:
-		 [NSLayoutConstraint constraintWithItem:self
+		 [NSLayoutConstraint constraintWithItem:self.contentView
 									  attribute:NSLayoutAttributeTrailing
 									  relatedBy:NSLayoutRelationEqual
 										 toItem:self.selectionView

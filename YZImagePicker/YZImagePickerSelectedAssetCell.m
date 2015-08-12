@@ -76,7 +76,7 @@ NSString *const YZImagePickerSelectedAssetCellIdentifier = @"YZImagePickerSelect
 	if (self) {
 		_closeView = [[YZImagePickerCloseView alloc] initWithFrame:CGRectZero];
 		_closeView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self addSubview:_closeView];
+		[self.contentView addSubview:_closeView];
 		
 		CGFloat closeViewSize = 20;
 		[self addConstraint:
@@ -100,19 +100,19 @@ NSString *const YZImagePickerSelectedAssetCellIdentifier = @"YZImagePickerSelect
 		
 		CGFloat padding = 5;
 		[self addConstraint:
-		 [NSLayoutConstraint constraintWithItem:self
+		 [NSLayoutConstraint constraintWithItem:self.closeView
 									  attribute:NSLayoutAttributeTop
 									  relatedBy:NSLayoutRelationEqual
-										 toItem:self.closeView
+										 toItem:self.contentView
 									  attribute:NSLayoutAttributeTop
 									 multiplier:1.0f
 									   constant:padding]
 		 ];
 		[self addConstraint:
-		 [NSLayoutConstraint constraintWithItem:self
+		 [NSLayoutConstraint constraintWithItem:self.closeView
 									  attribute:NSLayoutAttributeLeading
 									  relatedBy:NSLayoutRelationEqual
-										 toItem:self.closeView
+										 toItem:self.contentView
 									  attribute:NSLayoutAttributeLeading
 									 multiplier:1.0f
 									   constant:padding]
