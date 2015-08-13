@@ -16,6 +16,7 @@
 
 @interface YZImagePickerAssetCell : UICollectionViewCell
 
+@property (nonatomic, assign) BOOL isVideo;
 @property (strong, nonatomic) UIImageView *imageView;
 
 @end

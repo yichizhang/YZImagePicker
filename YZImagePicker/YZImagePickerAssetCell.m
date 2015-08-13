@@ -14,11 +14,149 @@
 
 #import "YZImagePickerAssetCell.h"
 
+@interface YZImagePickerCellVideoView : UIView
+
+@end
+
+@implementation YZImagePickerCellVideoView
+
+- (instancetype)initWithFrame:(CGRect)frame{
+	
+	self = [super initWithFrame:frame];
+	if (self) {
+		self.backgroundColor = [UIColor blackColor];
+	}
+	
+	return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextClearRect(context, rect);
+	CGContextSaveGState(context);
+	
+	// The icon occupies 'idealSize' fully.
+	CGSize idealSize = CGSizeMake(40, 30);
+	
+	// Calulate the scale needed for the icon to fit in the size of the rect.
+	CGFloat s = MIN( CGRectGetWidth(rect) / idealSize.width, CGRectGetHeight(rect) / idealSize.height );
+	
+	// Make the scale lower to make the icon look smaller.
+	s *= 0.618;
+	
+	// Apply translation and scaling so that the icon is drawn at the center of the rect.
+	CGContextTranslateCTM(
+						  context,
+						  (CGRectGetWidth(rect) - idealSize.width * s ) / 2,
+						  (CGRectGetHeight(rect) - idealSize.height * s ) / 2
+						  );
+	CGContextScaleCTM(context, s, s);
+
+	
+	//// Rectangle 2 Drawing
+	UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(2, 13, 3, 6)];
+	[UIColor.whiteColor setFill];
+	[rectangle2Path fill];
+	
+	
+	//// Oval 3 Drawing
+	UIBezierPath* oval3Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(8, 2, 9, 9)];
+	[UIColor.whiteColor setFill];
+	[oval3Path fill];
+	
+	
+	//// Oval 4 Drawing
+	UIBezierPath* oval4Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(18, 2, 9, 9)];
+	[UIColor.whiteColor setFill];
+	[oval4Path fill];
+	
+	
+	//// Bezier 2 Drawing
+	UIBezierPath* bezier2Path = UIBezierPath.bezierPath;
+	[bezier2Path moveToPoint: CGPointMake(6, 12)];
+	[bezier2Path addLineToPoint: CGPointMake(30, 12)];
+	[bezier2Path addLineToPoint: CGPointMake(30, 16)];
+	[bezier2Path addLineToPoint: CGPointMake(37, 10)];
+	[bezier2Path addLineToPoint: CGPointMake(37, 28)];
+	[bezier2Path addLineToPoint: CGPointMake(30, 22)];
+	[bezier2Path addLineToPoint: CGPointMake(30, 27)];
+	[bezier2Path addLineToPoint: CGPointMake(6, 27)];
+	[bezier2Path addLineToPoint: CGPointMake(6, 12)];
+	[bezier2Path closePath];
+	[UIColor.whiteColor setFill];
+	[bezier2Path fill];
+	
+	CGContextRestoreGState(context);
+}
+
+@end
+
 @interface YZImagePickerAssetCell ()
+
+@property (nonatomic, strong) YZImagePickerCellVideoView *isVideoView;
 
 @end
 
 @implementation YZImagePickerAssetCell
+
+- (void)setIsVideo:(BOOL)isVideo {
+	_isVideo = isVideo;
+	
+	if (isVideo) {
+		if (self.isVideoView) {
+			return;
+		}
+		
+		_isVideoView = [[YZImagePickerCellVideoView alloc] initWithFrame:CGRectZero];
+		_isVideoView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self.contentView addSubview:_isVideoView];
+		
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self.isVideoView
+									  attribute:NSLayoutAttributeWidth
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:nil
+									  attribute:NSLayoutAttributeNotAnAttribute
+									 multiplier:1.0f
+									   constant:30]
+		 ];
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self.isVideoView
+									  attribute:NSLayoutAttributeHeight
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:nil
+									  attribute:NSLayoutAttributeNotAnAttribute
+									 multiplier:1.0f
+									   constant:30]
+		 ];
+		
+		CGFloat padding = 0;
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self.contentView
+									  attribute:NSLayoutAttributeBottom
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:self.isVideoView
+									  attribute:NSLayoutAttributeBottom
+									 multiplier:1.0f
+									   constant:padding]
+		 ];
+		[self addConstraint:
+		 [NSLayoutConstraint constraintWithItem:self.isVideoView
+									  attribute:NSLayoutAttributeLeading
+									  relatedBy:NSLayoutRelationEqual
+										 toItem:self.contentView
+									  attribute:NSLayoutAttributeLeading
+									 multiplier:1.0f
+									   constant:padding]
+		 ];
+		
+	} else {
+		
+		[_isVideoView removeFromSuperview];
+		_isVideoView = nil;
+		
+	}
+}
 
 - (instancetype)initWithFrame:(CGRect)frame{
 	
