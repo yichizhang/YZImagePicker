@@ -23,8 +23,9 @@
 
 @interface YZImagePickerViewController : UINavigationController
 
-@property(nonatomic, copy) NSArray *mediaTypes;
-@property(nonatomic, assign) id<YZImagePickerDelegate> imagePickerDelegate;
+@property(nonatomic, assign) NSInteger maxNumberOfImages;
+@property(nonatomic, assign) NSInteger maxNumberOfVideos;
+@property(nonatomic, weak) id<YZImagePickerDelegate> imagePickerDelegate;
 @property(nonatomic, strong) void (^didFinishPickingClosure)(NSArray * mediaArray);
 
 @end

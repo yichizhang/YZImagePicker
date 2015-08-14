@@ -23,21 +23,39 @@
 
 #pragma mark - YZImagePickerViewController
 
+@class YZImagePickerMainViewController;
+
 @interface YZImagePickerViewController () <YZImagePickerDelegate>
 
-
+@property (nonatomic, weak) YZImagePickerMainViewController *mainViewController;
 
 @end
 
-@interface YZImagePickerMainViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, YZAssetGroupSelectionDelegate, UIPopoverPresentationControllerDelegate>
+@interface YZImagePickerMainViewController : UIViewController
 
-@property (nonatomic, strong) UICollectionView *mainCollectionView;
-@property (nonatomic, strong) UICollectionView *selectedCollectionView;
+@property(nonatomic, assign) NSInteger maxNumberOfImages;
+@property(nonatomic, assign) NSInteger maxNumberOfVideos;
 @property (nonatomic, assign) id<YZImagePickerDelegate> delegate;
 
 @end
 
 @implementation YZImagePickerViewController
+
+- (NSInteger)maxNumberOfImages {
+	return _mainViewController.maxNumberOfImages;
+}
+
+- (void)setMaxNumberOfImages:(NSInteger)maxNumberOfImages {
+	_mainViewController.maxNumberOfImages = maxNumberOfImages;
+}
+
+- (NSInteger)maxNumberOfVideos {
+	return _mainViewController.maxNumberOfVideos;
+}
+
+- (void)setMaxNumberOfVideos:(NSInteger)maxNumberOfVideos {
+	_mainViewController.maxNumberOfVideos = maxNumberOfVideos;
+}
 
 - (void)commonInit{
 	YZImagePickerMainViewController *vc = [YZImagePickerMainViewController new];
@@ -67,7 +85,7 @@
 
 @end
 
-@interface YZImagePickerMainViewController ()
+@interface YZImagePickerMainViewController () <UICollectionViewDelegate, UICollectionViewDataSource, YZAssetGroupSelectionDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, strong) ALAssetsLibrary *library;
 @property (nonatomic, strong) ALAssetsFilter *assetsFilter;
@@ -76,6 +94,8 @@
 @property (nonatomic, strong) UIButton *groupSelectionButton;
 @property (nonatomic, strong) UILabel *noAssetsInAlbumLabel;
 @property (nonatomic, strong) UILabel *noSelectionLabel;
+@property (nonatomic, strong) UICollectionView *mainCollectionView;
+@property (nonatomic, strong) UICollectionView *selectedCollectionView;
 
 @end
 
@@ -83,8 +103,10 @@
 
 - (void)commonInit{
 	_library = [ALAssetsLibrary new];
-	_assetsFilter = [ALAssetsFilter allPhotos];
 	_selectedAssets = [NSMutableArray new];
+	
+	_maxNumberOfImages = 5;
+	_maxNumberOfVideos = 2;
 }
 
 - (id)initWithCoder:(NSCoder*)aDecoder
@@ -114,6 +136,21 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+	
+	if (_maxNumberOfImages > 0 && _maxNumberOfVideos > 0) {
+		
+		_assetsFilter = [ALAssetsFilter allAssets];
+	} else if (_maxNumberOfImages <= 0 && _maxNumberOfVideos > 0) {
+		
+		_assetsFilter = [ALAssetsFilter allVideos];
+	} else {
+		
+		if (_maxNumberOfImages <= 0) {
+			// The user set both 'maxNumberOfImages' and 'maxNumberOfVideos' to under zero.
+			_maxNumberOfImages = 1;
+		}
+		_assetsFilter = [ALAssetsFilter allPhotos];
+	}
 	
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
 	
@@ -369,6 +406,9 @@
 						_noSelectionLabel.alpha = 0.0;
 					}];
 				}
+			} else {
+				
+				// TODO: Added remove asset code.
 			}
 			
 			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -463,6 +503,8 @@
 		cell = [collectionView dequeueReusableCellWithReuseIdentifier:YZImagePickerSelectedAssetCellIdentifier forIndexPath:indexPath];
 		asset = self.selectedAssets[indexPath.row];
 	}
+	
+	cell.isVideo = [[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo];
 	
 	UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
 	[cell.imageView setImage:image];
