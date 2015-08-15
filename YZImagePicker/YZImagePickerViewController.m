@@ -267,6 +267,44 @@
 }
 
 #pragma mark - Update
+- (void)removeAssetAtIndexInSelectedAssets:(NSUInteger)index {
+	// Tapped at the top left corner of the cell.
+	// Remove asset from the selected asset array.
+	ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:index];
+	[_selectedCollectionView.collectionViewLayout invalidateLayout];
+	[_selectedAssets removeObjectAtIndex:index];
+	
+	NSUInteger rowInMainColView = [_assetArray indexOfObject:assetToBeRemoved];
+	if (rowInMainColView != NSNotFound) {
+		
+		NSIndexPath *indexPathInMainColView = [NSIndexPath indexPathForItem:rowInMainColView inSection:0];
+		[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPathInMainColView]];
+	}
+	
+	NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:index inSection:0];
+	[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
+	
+	if (_selectedAssets.count == 0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			
+			_noSelectionLabel.alpha = 1.0;
+		}];
+	}
+	
+}
+
+- (void)showPreviewForAsset:(ALAsset*)asset {
+	
+	UIImage *image = [UIImage imageWithCGImage:
+					  [[asset defaultRepresentation] fullResolutionImage]
+					  ];
+	
+	YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
+	
+	[self.navigationController pushViewController:previewVC animated:true];
+	
+}
+
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
 	
 	NSString *groupName = [group valueForProperty:ALAssetsGroupPropertyName];
@@ -353,18 +391,6 @@
 	}
 }
 
-- (void)showPreviewForAsset:(ALAsset*)asset {
-	
-	UIImage *image = [UIImage imageWithCGImage:
-					  [[asset defaultRepresentation] fullResolutionImage]
-					  ];
-	
-	YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
-	
-	[self.navigationController pushViewController:previewVC animated:true];
-
-}
-
 #pragma mark - Gesture Recogonizer Handler
 - (void)mainCollectionViewTapped:(UIPanGestureRecognizer*)gr {
 	
@@ -390,9 +416,11 @@
 		} else {
 			
 			// Tapped at the bottom right corner of the cell.
-			// Add the asset to selected assets.
-			if ([_selectedAssets containsObject:asset] == false) {
-				
+			NSUInteger index = [_selectedAssets indexOfObject:asset];
+			
+			if (index == NSNotFound) {
+				// Asset not in selectedAssets.
+				// Add the asset to selectedAssets.
 				[_selectedAssets addObject:asset];
 				
 				NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
@@ -407,8 +435,9 @@
 					}];
 				}
 			} else {
-				
-				// TODO: Added remove asset code.
+				// Asset is in selectedAssets.
+				// Remove the asset from selectedAssets.
+				[self removeAssetAtIndexInSelectedAssets:index];
 			}
 			
 			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -425,40 +454,19 @@
 		UICollectionViewCell *cell = [_selectedCollectionView cellForItemAtIndexPath:indexPath];
 		CGPoint pointInCell = [gr locationInView:cell];
 		
-		ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
-		
 		if (
 			cell &&
 			pointInCell.x < CGRectGetWidth(cell.frame) * 0.6 &&
 			pointInCell.y < CGRectGetHeight(cell.frame) * 0.6
 			) {
 			
-			// Tapped at the top left corner of the cell.
-			// Remove asset from the selected asset array.
-			[_selectedCollectionView.collectionViewLayout invalidateLayout];
-			[_selectedAssets removeObjectAtIndex:indexPath.row];
-			
-			NSUInteger rowInMainColView = [_assetArray indexOfObject:assetToBeRemoved];
-			if (rowInMainColView != NSNotFound) {
-				
-				NSIndexPath *indexPathInMainColView = [NSIndexPath indexPathForItem:rowInMainColView inSection:0];
-				[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPathInMainColView]];
-			}
-			
-			NSIndexPath *deletedItem = [NSIndexPath indexPathForItem:indexPath.row inSection:0];
-			[self.selectedCollectionView deleteItemsAtIndexPaths:@[deletedItem]];
-			
-			if (_selectedAssets.count == 0) {
-				[UIView animateWithDuration:0.2 animations:^{
-					
-					_noSelectionLabel.alpha = 1.0;
-				}];
-			}
+			[self removeAssetAtIndexInSelectedAssets:indexPath.row];
 			
 		} else {
 			
 			// Tapped bottom or right part of the cell.
 			// Show preview.
+			ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
 			[self showPreviewForAsset:assetToBeRemoved];
 			
 		}
