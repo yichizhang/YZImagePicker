@@ -416,8 +416,8 @@
 		
 		if (
 			cell &&
-			pointInCell.x < CGRectGetWidth(cell.frame) * 0.4 &&
-			pointInCell.y < CGRectGetHeight(cell.frame) * 0.4
+			pointInCell.x < CGRectGetMidX(cell.bounds) &&
+			pointInCell.y < CGRectGetMidY(cell.bounds)
 			) {
 			
 			// Tapped at the left part and the top part of the cell.
@@ -467,8 +467,8 @@
 		
 		if (
 			cell &&
-			pointInCell.x < CGRectGetWidth(cell.frame) * 0.6 &&
-			pointInCell.y < CGRectGetHeight(cell.frame) * 0.6
+			pointInCell.x < CGRectGetMidX(cell.bounds) &&
+			pointInCell.y < CGRectGetMidY(cell.bounds)
 			) {
 			
 			[self removeAssetAtIndexInSelectedAssets:indexPath.row];
