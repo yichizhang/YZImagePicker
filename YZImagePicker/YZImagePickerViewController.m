@@ -13,6 +13,7 @@
  */
 
 @import AssetsLibrary;
+@import MediaPlayer;
 #import "YZImagePickerViewController.h"
 #import "YZImagePickerMainAssetCell.h"
 #import "YZImagePickerSelectedAssetCell.h"
@@ -295,14 +296,24 @@
 
 - (void)showPreviewForAsset:(ALAsset*)asset {
 	
-	UIImage *image = [UIImage imageWithCGImage:
-					  [[asset defaultRepresentation] fullResolutionImage]
-					  ];
-	
-	YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
-	
-	[self.navigationController pushViewController:previewVC animated:true];
-	
+	if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+		
+		NSURL *URL = [asset valueForProperty:ALAssetPropertyAssetURL];
+		
+		MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:URL];
+		
+		[playerVC.moviePlayer play];
+		[self presentMoviePlayerViewControllerAnimated:playerVC];
+	} else {
+		
+		UIImage *image = [UIImage imageWithCGImage:
+						  [[asset defaultRepresentation] fullResolutionImage]
+						  ];
+		
+		YZImagePreviewViewController *previewVC = [[YZImagePreviewViewController alloc] initWithImage:image];
+		
+		[self.navigationController pushViewController:previewVC animated:true];
+	}
 }
 
 - (void)updateAssestsWithGroup:(ALAssetsGroup *)group assetsFilter:(ALAssetsFilter *)filter {
