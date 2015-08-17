@@ -414,45 +414,45 @@
 		UICollectionViewCell *cell = [_mainCollectionView cellForItemAtIndexPath:indexPath];
 		CGPoint pointInCell = [gr locationInView:cell];
 		
-		if (
-			cell &&
-			pointInCell.x < CGRectGetMidX(cell.bounds) &&
-			pointInCell.y < CGRectGetMidY(cell.bounds)
-			) {
-			
-			// Tapped at the left part and the top part of the cell.
-			// Show user preview.
-			[self showPreviewForAsset:asset];
-			
-		} else {
-			
-			// Tapped at the bottom right corner of the cell.
-			NSUInteger index = [_selectedAssets indexOfObject:asset];
-			
-			if (index == NSNotFound) {
-				// Asset not in selectedAssets.
-				// Add the asset to selectedAssets.
-				[_selectedAssets addObject:asset];
+		if (cell) {
+			if (pointInCell.x < CGRectGetMidX(cell.bounds) &&
+				pointInCell.y < CGRectGetMidY(cell.bounds) ) {
 				
-				NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
-				[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+				// Tapped at the left part and the top part of the cell.
+				// Show user preview.
+				[self showPreviewForAsset:asset];
 				
-				[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-				
-				if (_selectedAssets.count == 1) {
-					[UIView animateWithDuration:0.2 animations:^{
-						
-						_noSelectionLabel.alpha = 0.0;
-					}];
-				}
 			} else {
-				// Asset is in selectedAssets.
-				// Remove the asset from selectedAssets.
-				[self removeAssetAtIndexInSelectedAssets:index];
+				
+				// Tapped at the bottom right corner of the cell.
+				NSUInteger index = [_selectedAssets indexOfObject:asset];
+				
+				if (index == NSNotFound) {
+					// Asset not in selectedAssets.
+					// Add the asset to selectedAssets.
+					[_selectedAssets addObject:asset];
+					
+					NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
+					[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+					
+					[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+					
+					if (_selectedAssets.count == 1) {
+						[UIView animateWithDuration:0.2 animations:^{
+							
+							_noSelectionLabel.alpha = 0.0;
+						}];
+					}
+				} else {
+					// Asset is in selectedAssets.
+					// Remove the asset from selectedAssets.
+					[self removeAssetAtIndexInSelectedAssets:index];
+				}
+				
+				[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 			}
-			
-			[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 		}
+		
 	}
 }
 
@@ -465,22 +465,22 @@
 		UICollectionViewCell *cell = [_selectedCollectionView cellForItemAtIndexPath:indexPath];
 		CGPoint pointInCell = [gr locationInView:cell];
 		
-		if (
-			cell &&
-			pointInCell.x < CGRectGetMidX(cell.bounds) &&
-			pointInCell.y < CGRectGetMidY(cell.bounds)
-			) {
-			
-			[self removeAssetAtIndexInSelectedAssets:indexPath.row];
-			
-		} else {
-			
-			// Tapped bottom or right part of the cell.
-			// Show preview.
-			ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
-			[self showPreviewForAsset:assetToBeRemoved];
-			
+		if (cell) {
+			if (pointInCell.x < CGRectGetMidX(cell.bounds) &&
+				pointInCell.y < CGRectGetMidY(cell.bounds) ) {
+				
+				[self removeAssetAtIndexInSelectedAssets:indexPath.row];
+				
+			} else {
+				
+				// Tapped bottom or right part of the cell.
+				// Show preview.
+				ALAsset *assetToBeRemoved = [_selectedAssets objectAtIndex:indexPath.row];
+				[self showPreviewForAsset:assetToBeRemoved];
+				
+			}
 		}
+		
 	}
 }
 
