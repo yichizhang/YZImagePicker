@@ -268,6 +268,24 @@
 }
 
 #pragma mark - Update
+- (void)selectAssetAtIndexInAssetArray:(NSUInteger)index {
+	
+	ALAsset *asset = _assetArray[index];
+	[_selectedAssets addObject:asset];
+	
+	NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
+	[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
+	
+	[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+	
+	if (_selectedAssets.count == 1) {
+		[UIView animateWithDuration:0.2 animations:^{
+			
+			_noSelectionLabel.alpha = 0.0;
+		}];
+	}
+}
+
 - (void)removeAssetAtIndexInSelectedAssets:(NSUInteger)index {
 	// Tapped at the top left corner of the cell.
 	// Remove asset from the selected asset array.
@@ -409,7 +427,8 @@
 	NSIndexPath *indexPath = [_mainCollectionView indexPathForItemAtPoint:point];
 	
 	if (indexPath) {
-		ALAsset *asset = self.assetArray[indexPath.row];
+		
+		ALAsset *asset = _assetArray[indexPath.row];
 		
 		UICollectionViewCell *cell = [_mainCollectionView cellForItemAtIndexPath:indexPath];
 		CGPoint pointInCell = [gr locationInView:cell];
@@ -425,28 +444,20 @@
 			} else {
 				
 				// Tapped at the bottom right corner of the cell.
-				NSUInteger index = [_selectedAssets indexOfObject:asset];
+				NSUInteger indexInSelectedAssets = [_selectedAssets indexOfObject:asset];
 				
-				if (index == NSNotFound) {
+				if (indexInSelectedAssets == NSNotFound) {
+					
 					// Asset not in selectedAssets.
 					// Add the asset to selectedAssets.
-					[_selectedAssets addObject:asset];
+					[self selectAssetAtIndexInAssetArray:indexPath.row];
 					
-					NSIndexPath *insertedItem = [NSIndexPath indexPathForItem:(_selectedAssets.count - 1) inSection:0];
-					[self.selectedCollectionView insertItemsAtIndexPaths:@[insertedItem]];
-					
-					[self.selectedCollectionView scrollToItemAtIndexPath:insertedItem atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-					
-					if (_selectedAssets.count == 1) {
-						[UIView animateWithDuration:0.2 animations:^{
-							
-							_noSelectionLabel.alpha = 0.0;
-						}];
-					}
 				} else {
+					
 					// Asset is in selectedAssets.
 					// Remove the asset from selectedAssets.
-					[self removeAssetAtIndexInSelectedAssets:index];
+					[self removeAssetAtIndexInSelectedAssets:indexInSelectedAssets];
+					
 				}
 				
 				[self.mainCollectionView reloadItemsAtIndexPaths:@[indexPath]];
