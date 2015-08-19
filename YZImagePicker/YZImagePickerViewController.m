@@ -252,9 +252,7 @@
 	[super viewDidLayoutSubviews];
 	
 	// FIXME: There are extra views added when the orientation changes.
-	NSLog(@"------------------------------");
 	for (UIView *v in self.view.subviews) {
-		NSLog(@"---%@---", v);
 		
 		if (v != self.mainCollectionView &&
 			v != self.selectedCollectionView &&
@@ -264,7 +262,6 @@
 			[v removeFromSuperview];
 		}
 	}
-	NSLog(@"------------------------------");
 }
 
 #pragma mark - Update
